@@ -1,0 +1,796 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0318F81B16D2BB53A60FE4A6 /* libPods-FeedeaterUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B8CB22EEF19D894B2DFA1452 /* libPods-FeedeaterUITests.a */; };
+		1663D1FB6ABA5B1C49C3129D /* libPods-FeedeaterTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D532725F109183A002F0ACF /* libPods-FeedeaterTests.a */; };
+		670F24851D9D6DD600FEBAC2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F24841D9D6DD600FEBAC2 /* main.m */; };
+		670F24881D9D6DD600FEBAC2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F24871D9D6DD600FEBAC2 /* AppDelegate.m */; };
+		670F24911D9D6DD600FEBAC2 /* Feedeater.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 670F248F1D9D6DD600FEBAC2 /* Feedeater.xcdatamodeld */; };
+		670F24931D9D6DD600FEBAC2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 670F24921D9D6DD600FEBAC2 /* Assets.xcassets */; };
+		670F24961D9D6DD600FEBAC2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 670F24941D9D6DD600FEBAC2 /* LaunchScreen.storyboard */; };
+		670F24A11D9D6DD700FEBAC2 /* FeedeaterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F24A01D9D6DD700FEBAC2 /* FeedeaterTests.m */; };
+		670F24AC1D9D6DD700FEBAC2 /* FeedeaterUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F24AB1D9D6DD700FEBAC2 /* FeedeaterUITests.m */; };
+		670F24D21D9D6E4500FEBAC2 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F24BA1D9D6E4500FEBAC2 /* AboutViewController.m */; };
+		670F24D31D9D6E4500FEBAC2 /* AddFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F24BC1D9D6E4500FEBAC2 /* AddFeedViewController.m */; };
+		670F24D41D9D6E4500FEBAC2 /* BookmarksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F24BE1D9D6E4500FEBAC2 /* BookmarksViewController.m */; };
+		670F24D51D9D6E4500FEBAC2 /* DataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F24C01D9D6E4500FEBAC2 /* DataManager.m */; };
+		670F24D61D9D6E4500FEBAC2 /* EditFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F24C21D9D6E4500FEBAC2 /* EditFeedViewController.m */; };
+		670F24D71D9D6E4500FEBAC2 /* FeedBookmarksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F24C41D9D6E4500FEBAC2 /* FeedBookmarksViewController.m */; };
+		670F24D81D9D6E4500FEBAC2 /* FeedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F24C61D9D6E4500FEBAC2 /* FeedCell.m */; };
+		670F24D91D9D6E4500FEBAC2 /* FeedListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F24C91D9D6E4500FEBAC2 /* FeedListViewController.m */; };
+		670F24DB1D9D6E4500FEBAC2 /* LatestNewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F24CC1D9D6E4500FEBAC2 /* LatestNewsViewController.m */; };
+		670F24DC1D9D6E4500FEBAC2 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 670F24CD1D9D6E4500FEBAC2 /* Settings.bundle */; };
+		670F24DD1D9D6E4500FEBAC2 /* StoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F24CF1D9D6E4500FEBAC2 /* StoryCell.m */; };
+		670F24DE1D9D6E4500FEBAC2 /* StoryDetailsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F24D11D9D6E4500FEBAC2 /* StoryDetailsTableViewController.m */; };
+		670F24E01D9D6E5700FEBAC2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 670F24DF1D9D6E5700FEBAC2 /* Main.storyboard */; };
+		AF1253664C1641E5C00927DD /* libPods-Feedeater.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF5972286281D9A8CCAEA992 /* libPods-Feedeater.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		670F249D1D9D6DD700FEBAC2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 670F24781D9D6DD600FEBAC2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 670F247F1D9D6DD600FEBAC2;
+			remoteInfo = Feedeater;
+		};
+		670F24A81D9D6DD700FEBAC2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 670F24781D9D6DD600FEBAC2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 670F247F1D9D6DD600FEBAC2;
+			remoteInfo = Feedeater;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		1A19D42B30B1B66B1A293BF2 /* Pods-FeedeaterTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FeedeaterTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-FeedeaterTests/Pods-FeedeaterTests.release.xcconfig"; sourceTree = "<group>"; };
+		670F24801D9D6DD600FEBAC2 /* Feedeater.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Feedeater.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		670F24841D9D6DD600FEBAC2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		670F24861D9D6DD600FEBAC2 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		670F24871D9D6DD600FEBAC2 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		670F24901D9D6DD600FEBAC2 /* Feedeater.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Feedeater.xcdatamodel; sourceTree = "<group>"; };
+		670F24921D9D6DD600FEBAC2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		670F24951D9D6DD600FEBAC2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		670F249C1D9D6DD700FEBAC2 /* FeedeaterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FeedeaterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		670F24A01D9D6DD700FEBAC2 /* FeedeaterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedeaterTests.m; sourceTree = "<group>"; };
+		670F24A21D9D6DD700FEBAC2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		670F24A71D9D6DD700FEBAC2 /* FeedeaterUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FeedeaterUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		670F24AB1D9D6DD700FEBAC2 /* FeedeaterUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedeaterUITests.m; sourceTree = "<group>"; };
+		670F24AD1D9D6DD700FEBAC2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		670F24B91D9D6E4500FEBAC2 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
+		670F24BA1D9D6E4500FEBAC2 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
+		670F24BB1D9D6E4500FEBAC2 /* AddFeedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddFeedViewController.h; sourceTree = "<group>"; };
+		670F24BC1D9D6E4500FEBAC2 /* AddFeedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddFeedViewController.m; sourceTree = "<group>"; };
+		670F24BD1D9D6E4500FEBAC2 /* BookmarksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookmarksViewController.h; sourceTree = "<group>"; };
+		670F24BE1D9D6E4500FEBAC2 /* BookmarksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookmarksViewController.m; sourceTree = "<group>"; };
+		670F24BF1D9D6E4500FEBAC2 /* DataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataManager.h; sourceTree = "<group>"; };
+		670F24C01D9D6E4500FEBAC2 /* DataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataManager.m; sourceTree = "<group>"; };
+		670F24C11D9D6E4500FEBAC2 /* EditFeedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditFeedViewController.h; sourceTree = "<group>"; };
+		670F24C21D9D6E4500FEBAC2 /* EditFeedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditFeedViewController.m; sourceTree = "<group>"; };
+		670F24C31D9D6E4500FEBAC2 /* FeedBookmarksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedBookmarksViewController.h; sourceTree = "<group>"; };
+		670F24C41D9D6E4500FEBAC2 /* FeedBookmarksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedBookmarksViewController.m; sourceTree = "<group>"; };
+		670F24C51D9D6E4500FEBAC2 /* FeedCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedCell.h; sourceTree = "<group>"; };
+		670F24C61D9D6E4500FEBAC2 /* FeedCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedCell.m; sourceTree = "<group>"; };
+		670F24C71D9D6E4500FEBAC2 /* Feedeater-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Feedeater-Bridging-Header.h"; sourceTree = "<group>"; };
+		670F24C81D9D6E4500FEBAC2 /* FeedListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedListViewController.h; sourceTree = "<group>"; };
+		670F24C91D9D6E4500FEBAC2 /* FeedListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedListViewController.m; sourceTree = "<group>"; };
+		670F24CA1D9D6E4500FEBAC2 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		670F24CB1D9D6E4500FEBAC2 /* LatestNewsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LatestNewsViewController.h; sourceTree = "<group>"; };
+		670F24CC1D9D6E4500FEBAC2 /* LatestNewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LatestNewsViewController.m; sourceTree = "<group>"; };
+		670F24CD1D9D6E4500FEBAC2 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = Feedeater/Settings.bundle; sourceTree = "<group>"; };
+		670F24CE1D9D6E4500FEBAC2 /* StoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryCell.h; sourceTree = "<group>"; };
+		670F24CF1D9D6E4500FEBAC2 /* StoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryCell.m; sourceTree = "<group>"; };
+		670F24D01D9D6E4500FEBAC2 /* StoryDetailsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryDetailsTableViewController.h; sourceTree = "<group>"; };
+		670F24D11D9D6E4500FEBAC2 /* StoryDetailsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryDetailsTableViewController.m; sourceTree = "<group>"; };
+		670F24DF1D9D6E5700FEBAC2 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		6D532725F109183A002F0ACF /* libPods-FeedeaterTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FeedeaterTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		919D11D0AD3AFD3D2D4407B6 /* Pods-Feedeater.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Feedeater.release.xcconfig"; path = "Pods/Target Support Files/Pods-Feedeater/Pods-Feedeater.release.xcconfig"; sourceTree = "<group>"; };
+		9FA5F063F28830C7442F6705 /* Pods-FeedeaterTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FeedeaterTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FeedeaterTests/Pods-FeedeaterTests.debug.xcconfig"; sourceTree = "<group>"; };
+		AC63B151B70E6E759F64D51C /* Pods-FeedeaterUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FeedeaterUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FeedeaterUITests/Pods-FeedeaterUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		B8CB22EEF19D894B2DFA1452 /* libPods-FeedeaterUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FeedeaterUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B914CC49DEA1697A5A1E7F65 /* Pods-Feedeater.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Feedeater.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Feedeater/Pods-Feedeater.debug.xcconfig"; sourceTree = "<group>"; };
+		BF0C362B7FB0828473FABDAF /* Pods-FeedeaterUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FeedeaterUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-FeedeaterUITests/Pods-FeedeaterUITests.release.xcconfig"; sourceTree = "<group>"; };
+		BF5972286281D9A8CCAEA992 /* libPods-Feedeater.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Feedeater.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		670F247D1D9D6DD600FEBAC2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AF1253664C1641E5C00927DD /* libPods-Feedeater.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		670F24991D9D6DD700FEBAC2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1663D1FB6ABA5B1C49C3129D /* libPods-FeedeaterTests.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		670F24A41D9D6DD700FEBAC2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0318F81B16D2BB53A60FE4A6 /* libPods-FeedeaterUITests.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1299ABF6402FEA03B0A772C2 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B914CC49DEA1697A5A1E7F65 /* Pods-Feedeater.debug.xcconfig */,
+				919D11D0AD3AFD3D2D4407B6 /* Pods-Feedeater.release.xcconfig */,
+				9FA5F063F28830C7442F6705 /* Pods-FeedeaterTests.debug.xcconfig */,
+				1A19D42B30B1B66B1A293BF2 /* Pods-FeedeaterTests.release.xcconfig */,
+				AC63B151B70E6E759F64D51C /* Pods-FeedeaterUITests.debug.xcconfig */,
+				BF0C362B7FB0828473FABDAF /* Pods-FeedeaterUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		670F24771D9D6DD600FEBAC2 = {
+			isa = PBXGroup;
+			children = (
+				670F24CD1D9D6E4500FEBAC2 /* Settings.bundle */,
+				670F24821D9D6DD600FEBAC2 /* Feedeater */,
+				670F249F1D9D6DD700FEBAC2 /* FeedeaterTests */,
+				670F24AA1D9D6DD700FEBAC2 /* FeedeaterUITests */,
+				670F24811D9D6DD600FEBAC2 /* Products */,
+				1299ABF6402FEA03B0A772C2 /* Pods */,
+				FCFA12775B1314685198AF35 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		670F24811D9D6DD600FEBAC2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				670F24801D9D6DD600FEBAC2 /* Feedeater.app */,
+				670F249C1D9D6DD700FEBAC2 /* FeedeaterTests.xctest */,
+				670F24A71D9D6DD700FEBAC2 /* FeedeaterUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		670F24821D9D6DD600FEBAC2 /* Feedeater */ = {
+			isa = PBXGroup;
+			children = (
+				670F24861D9D6DD600FEBAC2 /* AppDelegate.h */,
+				670F24871D9D6DD600FEBAC2 /* AppDelegate.m */,
+				670F24B91D9D6E4500FEBAC2 /* AboutViewController.h */,
+				670F24BA1D9D6E4500FEBAC2 /* AboutViewController.m */,
+				670F24BB1D9D6E4500FEBAC2 /* AddFeedViewController.h */,
+				670F24BC1D9D6E4500FEBAC2 /* AddFeedViewController.m */,
+				670F24BD1D9D6E4500FEBAC2 /* BookmarksViewController.h */,
+				670F24BE1D9D6E4500FEBAC2 /* BookmarksViewController.m */,
+				670F24BF1D9D6E4500FEBAC2 /* DataManager.h */,
+				670F24C01D9D6E4500FEBAC2 /* DataManager.m */,
+				670F24C11D9D6E4500FEBAC2 /* EditFeedViewController.h */,
+				670F24C21D9D6E4500FEBAC2 /* EditFeedViewController.m */,
+				670F24C31D9D6E4500FEBAC2 /* FeedBookmarksViewController.h */,
+				670F24C41D9D6E4500FEBAC2 /* FeedBookmarksViewController.m */,
+				670F24C51D9D6E4500FEBAC2 /* FeedCell.h */,
+				670F24C61D9D6E4500FEBAC2 /* FeedCell.m */,
+				670F24C71D9D6E4500FEBAC2 /* Feedeater-Bridging-Header.h */,
+				670F24C81D9D6E4500FEBAC2 /* FeedListViewController.h */,
+				670F24C91D9D6E4500FEBAC2 /* FeedListViewController.m */,
+				670F24CA1D9D6E4500FEBAC2 /* Info.plist */,
+				670F24CB1D9D6E4500FEBAC2 /* LatestNewsViewController.h */,
+				670F24CC1D9D6E4500FEBAC2 /* LatestNewsViewController.m */,
+				670F24DF1D9D6E5700FEBAC2 /* Main.storyboard */,
+				670F24CE1D9D6E4500FEBAC2 /* StoryCell.h */,
+				670F24CF1D9D6E4500FEBAC2 /* StoryCell.m */,
+				670F24D01D9D6E4500FEBAC2 /* StoryDetailsTableViewController.h */,
+				670F24D11D9D6E4500FEBAC2 /* StoryDetailsTableViewController.m */,
+				670F24921D9D6DD600FEBAC2 /* Assets.xcassets */,
+				670F24941D9D6DD600FEBAC2 /* LaunchScreen.storyboard */,
+				670F248F1D9D6DD600FEBAC2 /* Feedeater.xcdatamodeld */,
+				670F24831D9D6DD600FEBAC2 /* Supporting Files */,
+			);
+			path = Feedeater;
+			sourceTree = "<group>";
+		};
+		670F24831D9D6DD600FEBAC2 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				670F24841D9D6DD600FEBAC2 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		670F249F1D9D6DD700FEBAC2 /* FeedeaterTests */ = {
+			isa = PBXGroup;
+			children = (
+				670F24A01D9D6DD700FEBAC2 /* FeedeaterTests.m */,
+				670F24A21D9D6DD700FEBAC2 /* Info.plist */,
+			);
+			path = FeedeaterTests;
+			sourceTree = "<group>";
+		};
+		670F24AA1D9D6DD700FEBAC2 /* FeedeaterUITests */ = {
+			isa = PBXGroup;
+			children = (
+				670F24AB1D9D6DD700FEBAC2 /* FeedeaterUITests.m */,
+				670F24AD1D9D6DD700FEBAC2 /* Info.plist */,
+			);
+			path = FeedeaterUITests;
+			sourceTree = "<group>";
+		};
+		FCFA12775B1314685198AF35 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BF5972286281D9A8CCAEA992 /* libPods-Feedeater.a */,
+				6D532725F109183A002F0ACF /* libPods-FeedeaterTests.a */,
+				B8CB22EEF19D894B2DFA1452 /* libPods-FeedeaterUITests.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		670F247F1D9D6DD600FEBAC2 /* Feedeater */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 670F24B01D9D6DD700FEBAC2 /* Build configuration list for PBXNativeTarget "Feedeater" */;
+			buildPhases = (
+				0C0BD5B68AE3F7AD46913733 /* [CP] Check Pods Manifest.lock */,
+				670F247C1D9D6DD600FEBAC2 /* Sources */,
+				670F247D1D9D6DD600FEBAC2 /* Frameworks */,
+				670F247E1D9D6DD600FEBAC2 /* Resources */,
+				34583FF78219F0F994F6D5D9 /* [CP] Embed Pods Frameworks */,
+				084AF5504DE373A223024D38 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Feedeater;
+			productName = Feedeater;
+			productReference = 670F24801D9D6DD600FEBAC2 /* Feedeater.app */;
+			productType = "com.apple.product-type.application";
+		};
+		670F249B1D9D6DD700FEBAC2 /* FeedeaterTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 670F24B31D9D6DD700FEBAC2 /* Build configuration list for PBXNativeTarget "FeedeaterTests" */;
+			buildPhases = (
+				8B4E7E74DEC6DDE8740E15F1 /* [CP] Check Pods Manifest.lock */,
+				670F24981D9D6DD700FEBAC2 /* Sources */,
+				670F24991D9D6DD700FEBAC2 /* Frameworks */,
+				670F249A1D9D6DD700FEBAC2 /* Resources */,
+				1C8530AD7D562560E2C3837B /* [CP] Embed Pods Frameworks */,
+				F68161372F09FD2EEC05E561 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				670F249E1D9D6DD700FEBAC2 /* PBXTargetDependency */,
+			);
+			name = FeedeaterTests;
+			productName = FeedeaterTests;
+			productReference = 670F249C1D9D6DD700FEBAC2 /* FeedeaterTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		670F24A61D9D6DD700FEBAC2 /* FeedeaterUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 670F24B61D9D6DD700FEBAC2 /* Build configuration list for PBXNativeTarget "FeedeaterUITests" */;
+			buildPhases = (
+				B6433A75A481D304A845E1B4 /* [CP] Check Pods Manifest.lock */,
+				670F24A31D9D6DD700FEBAC2 /* Sources */,
+				670F24A41D9D6DD700FEBAC2 /* Frameworks */,
+				670F24A51D9D6DD700FEBAC2 /* Resources */,
+				920F451BE8CB4D1C34366BBA /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				670F24A91D9D6DD700FEBAC2 /* PBXTargetDependency */,
+			);
+			name = FeedeaterUITests;
+			productName = FeedeaterUITests;
+			productReference = 670F24A71D9D6DD700FEBAC2 /* FeedeaterUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		670F24781D9D6DD600FEBAC2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0800;
+				ORGANIZATIONNAME = Edwin;
+				TargetAttributes = {
+					670F247F1D9D6DD600FEBAC2 = {
+						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = FWGYJ99DK7;
+						ProvisioningStyle = Automatic;
+					};
+					670F249B1D9D6DD700FEBAC2 = {
+						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = FWGYJ99DK7;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 670F247F1D9D6DD600FEBAC2;
+					};
+					670F24A61D9D6DD700FEBAC2 = {
+						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = FWGYJ99DK7;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 670F247F1D9D6DD600FEBAC2;
+					};
+				};
+			};
+			buildConfigurationList = 670F247B1D9D6DD600FEBAC2 /* Build configuration list for PBXProject "Feedeater" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 670F24771D9D6DD600FEBAC2;
+			productRefGroup = 670F24811D9D6DD600FEBAC2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				670F247F1D9D6DD600FEBAC2 /* Feedeater */,
+				670F249B1D9D6DD700FEBAC2 /* FeedeaterTests */,
+				670F24A61D9D6DD700FEBAC2 /* FeedeaterUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		670F247E1D9D6DD600FEBAC2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				670F24DC1D9D6E4500FEBAC2 /* Settings.bundle in Resources */,
+				670F24E01D9D6E5700FEBAC2 /* Main.storyboard in Resources */,
+				670F24961D9D6DD600FEBAC2 /* LaunchScreen.storyboard in Resources */,
+				670F24931D9D6DD600FEBAC2 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		670F249A1D9D6DD700FEBAC2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		670F24A51D9D6DD700FEBAC2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		084AF5504DE373A223024D38 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Feedeater/Pods-Feedeater-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		0C0BD5B68AE3F7AD46913733 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		1C8530AD7D562560E2C3837B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FeedeaterTests/Pods-FeedeaterTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		34583FF78219F0F994F6D5D9 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Feedeater/Pods-Feedeater-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8B4E7E74DEC6DDE8740E15F1 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		920F451BE8CB4D1C34366BBA /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FeedeaterUITests/Pods-FeedeaterUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B6433A75A481D304A845E1B4 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		F68161372F09FD2EEC05E561 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FeedeaterTests/Pods-FeedeaterTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		670F247C1D9D6DD600FEBAC2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				670F24D41D9D6E4500FEBAC2 /* BookmarksViewController.m in Sources */,
+				670F24D81D9D6E4500FEBAC2 /* FeedCell.m in Sources */,
+				670F24DE1D9D6E4500FEBAC2 /* StoryDetailsTableViewController.m in Sources */,
+				670F24DB1D9D6E4500FEBAC2 /* LatestNewsViewController.m in Sources */,
+				670F24D91D9D6E4500FEBAC2 /* FeedListViewController.m in Sources */,
+				670F24881D9D6DD600FEBAC2 /* AppDelegate.m in Sources */,
+				670F24D51D9D6E4500FEBAC2 /* DataManager.m in Sources */,
+				670F24851D9D6DD600FEBAC2 /* main.m in Sources */,
+				670F24D61D9D6E4500FEBAC2 /* EditFeedViewController.m in Sources */,
+				670F24D71D9D6E4500FEBAC2 /* FeedBookmarksViewController.m in Sources */,
+				670F24D21D9D6E4500FEBAC2 /* AboutViewController.m in Sources */,
+				670F24D31D9D6E4500FEBAC2 /* AddFeedViewController.m in Sources */,
+				670F24911D9D6DD600FEBAC2 /* Feedeater.xcdatamodeld in Sources */,
+				670F24DD1D9D6E4500FEBAC2 /* StoryCell.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		670F24981D9D6DD700FEBAC2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				670F24A11D9D6DD700FEBAC2 /* FeedeaterTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		670F24A31D9D6DD700FEBAC2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				670F24AC1D9D6DD700FEBAC2 /* FeedeaterUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		670F249E1D9D6DD700FEBAC2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 670F247F1D9D6DD600FEBAC2 /* Feedeater */;
+			targetProxy = 670F249D1D9D6DD700FEBAC2 /* PBXContainerItemProxy */;
+		};
+		670F24A91D9D6DD700FEBAC2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 670F247F1D9D6DD600FEBAC2 /* Feedeater */;
+			targetProxy = 670F24A81D9D6DD700FEBAC2 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		670F24941D9D6DD600FEBAC2 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				670F24951D9D6DD600FEBAC2 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		670F24AE1D9D6DD700FEBAC2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		670F24AF1D9D6DD700FEBAC2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		670F24B11D9D6DD700FEBAC2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B914CC49DEA1697A5A1E7F65 /* Pods-Feedeater.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = FWGYJ99DK7;
+				INFOPLIST_FILE = Feedeater/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = EdB.Feedeater;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		670F24B21D9D6DD700FEBAC2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 919D11D0AD3AFD3D2D4407B6 /* Pods-Feedeater.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = FWGYJ99DK7;
+				INFOPLIST_FILE = Feedeater/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = EdB.Feedeater;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		670F24B41D9D6DD700FEBAC2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9FA5F063F28830C7442F6705 /* Pods-FeedeaterTests.debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = FWGYJ99DK7;
+				INFOPLIST_FILE = FeedeaterTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = EdB.FeedeaterTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Feedeater.app/Feedeater";
+			};
+			name = Debug;
+		};
+		670F24B51D9D6DD700FEBAC2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1A19D42B30B1B66B1A293BF2 /* Pods-FeedeaterTests.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = FWGYJ99DK7;
+				INFOPLIST_FILE = FeedeaterTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = EdB.FeedeaterTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Feedeater.app/Feedeater";
+			};
+			name = Release;
+		};
+		670F24B71D9D6DD700FEBAC2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AC63B151B70E6E759F64D51C /* Pods-FeedeaterUITests.debug.xcconfig */;
+			buildSettings = {
+				DEVELOPMENT_TEAM = FWGYJ99DK7;
+				INFOPLIST_FILE = FeedeaterUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = EdB.FeedeaterUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = Feedeater;
+			};
+			name = Debug;
+		};
+		670F24B81D9D6DD700FEBAC2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BF0C362B7FB0828473FABDAF /* Pods-FeedeaterUITests.release.xcconfig */;
+			buildSettings = {
+				DEVELOPMENT_TEAM = FWGYJ99DK7;
+				INFOPLIST_FILE = FeedeaterUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = EdB.FeedeaterUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = Feedeater;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		670F247B1D9D6DD600FEBAC2 /* Build configuration list for PBXProject "Feedeater" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				670F24AE1D9D6DD700FEBAC2 /* Debug */,
+				670F24AF1D9D6DD700FEBAC2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		670F24B01D9D6DD700FEBAC2 /* Build configuration list for PBXNativeTarget "Feedeater" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				670F24B11D9D6DD700FEBAC2 /* Debug */,
+				670F24B21D9D6DD700FEBAC2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		670F24B31D9D6DD700FEBAC2 /* Build configuration list for PBXNativeTarget "FeedeaterTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				670F24B41D9D6DD700FEBAC2 /* Debug */,
+				670F24B51D9D6DD700FEBAC2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		670F24B61D9D6DD700FEBAC2 /* Build configuration list for PBXNativeTarget "FeedeaterUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				670F24B71D9D6DD700FEBAC2 /* Debug */,
+				670F24B81D9D6DD700FEBAC2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		670F248F1D9D6DD600FEBAC2 /* Feedeater.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				670F24901D9D6DD600FEBAC2 /* Feedeater.xcdatamodel */,
+			);
+			currentVersion = 670F24901D9D6DD600FEBAC2 /* Feedeater.xcdatamodel */;
+			path = Feedeater.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 670F24781D9D6DD600FEBAC2 /* Project object */;
+}
