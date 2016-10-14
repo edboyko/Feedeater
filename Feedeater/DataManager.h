@@ -14,6 +14,9 @@
 @property (strong,nonatomic) NSArray *feedsArray;
 @property (strong,nonatomic) NSUserDefaults *standardUserDefaults;
 @property (strong, nonatomic, readonly) NSManagedObjectContext *context;
+
+@property (strong, nonatomic) NSFetchedResultsController *frc;
+
 +(DataManager*)sharedInstance;
 -(void)reloadArray;
 -(NSArray*)getBookmarks;

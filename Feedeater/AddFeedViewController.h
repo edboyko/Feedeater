@@ -17,7 +17,6 @@
 @property (strong, nonatomic) DataManager *dataManager;
 @property (strong, nonatomic) IBOutlet UIButton *addManuallyButton;
 
-- (IBAction)findFeeds:(id)sender;
 @property (strong, nonatomic) IBOutlet UITextField *searchField;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSArray *resultsArray;

@@ -54,6 +54,21 @@
     [self addAlert:@""];
 }
 
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
+    if(![textField.text isEqualToString:@""]){
+        [self setUpProgressHUD];
+        [self.tableView addSubview:self.hud]; // Add "Loading" indicator
+        NSString *space = @"%20";
+        NSString *urlString = [NSString stringWithFormat:@"https://ajax.googleapis.com/ajax/services/feed/find?v=1.0&q=rss%@feed%@%@",space,space,self.searchField.text];
+        searchURL = [NSURL URLWithString:urlString];
+        [self getDataFromURL:searchURL];
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
 
 - (BOOL)validateUrl:(NSString *)candidate { // Checks if URL is correct
     NSString *urlRegEx = @"http(s)?://([\\w-]+\\.)+[\\w-]+(/[\\w- ./?%&amp;=]*)?";
@@ -151,13 +166,4 @@
     
 }
 
-- (IBAction)findFeeds:(id)sender {
-    
-    [self setUpProgressHUD];
-    [self.tableView addSubview:self.hud]; // Add "Loading" indicator
-    NSString *space = @"%20";
-    NSString *urlString = [NSString stringWithFormat:@"https://ajax.googleapis.com/ajax/services/feed/find?v=1.0&q=rss%@feed%@%@",space,space,self.searchField.text];
-    searchURL = [NSURL URLWithString:urlString];
-    [self getDataFromURL:searchURL];
-}
 @end

@@ -11,12 +11,16 @@
 @implementation DataManager
 
 
-static DataManager *dataManager = nil;
 
 +(DataManager*)sharedInstance{
-    if(dataManager == nil){
+    static DataManager *dataManager = nil;
+    
+    static dispatch_once_t onceToken;
+    
+    dispatch_once(&onceToken, ^{
         dataManager = [[DataManager alloc]init];
-    }
+    });
+    
     return dataManager;
 }
 
