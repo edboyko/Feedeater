@@ -88,15 +88,26 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
         
-        if([self.dataManager deleteObject:[self.dataManager.feedsArray objectAtIndex:indexPath.row]]){
-            
-            [self.dataManager reloadArray];
-            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-            
-        }
+        [self.navigationController presentViewController:[self deleteFeedAlert:indexPath] animated:YES completion:nil];
     }
 }
 
+-(UIAlertController*)deleteFeedAlert:(NSIndexPath*)indexPath{
+    UIAlertController *deleteFeedAlert = [UIAlertController alertControllerWithTitle:@"Delete" message:@"Are you sure you want to delete this feed?" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *deleteAction = [UIAlertAction actionWithTitle:@"Delete" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
+        if([self.dataManager deleteObject:[self.dataManager.feedsArray objectAtIndex:indexPath.row]]){
+            
+            [self.dataManager reloadArray];
+            [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            
+        }
+    }];
+    UIAlertAction *backAction = [UIAlertAction actionWithTitle:@"Back" style:UIAlertActionStyleDefault handler:nil];
+    [deleteFeedAlert addAction:backAction];
+    [deleteFeedAlert addAction:deleteAction];
+    
+    return deleteFeedAlert;
+}
 
 /*
 // Override to support rearranging the table view.
