@@ -7,6 +7,11 @@
 //
 
 #import "DataManager.h"
+@interface DataManager()
+
+@property (strong, nonatomic, readonly) NSManagedObjectContext *context;
+
+@end
 
 @implementation DataManager
 

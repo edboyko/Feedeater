@@ -7,12 +7,19 @@
 //
 
 #import "AddFeedViewController.h"
-@interface AddFeedViewController(){
+#import <MBProgressHUD/MBProgressHUD.h>
+#import "DataManager.h"
+
+@interface AddFeedViewController() <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>{
     
     NSURL *searchURL;
     NSURLSession *session;
-    
 }
+
+@property (strong, nonatomic) DataManager *dataManager;
+@property (strong, nonatomic) NSArray *resultsArray;
+
+@property (strong, nonatomic) MBProgressHUD *hud;
 
 @end
 

@@ -13,7 +13,6 @@
 
 @property (strong,nonatomic) NSArray *feedsArray;
 @property (strong,nonatomic) NSUserDefaults *standardUserDefaults;
-@property (strong, nonatomic, readonly) NSManagedObjectContext *context;
 
 @property (strong, nonatomic) NSFetchedResultsController *frc;
 
@@ -24,4 +23,5 @@
 -(BOOL)saveFeed:(NSString*)name url:(NSString*)url;
 -(BOOL)deleteObject:(id)object;
 -(BOOL)saveBookmark:(NSString*)name url:(NSString*)url feed:(NSManagedObject*)feed;
+
 @end

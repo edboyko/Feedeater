@@ -7,22 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <AXPopoverView/AXPopoverView.h>
-#import <AXAttributedLabel.h>
-#import <MBProgressHUD/MBProgressHUD.h>
-#import "DataManager.h"
 
-@interface AddFeedViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
+@interface AddFeedViewController : UIViewController
 
-@property (strong, nonatomic) DataManager *dataManager;
 @property (strong, nonatomic) IBOutlet UIButton *addManuallyButton;
 
 @property (strong, nonatomic) IBOutlet UITextField *searchField;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
-@property (strong, nonatomic) NSArray *resultsArray;
-
-@property (strong, nonatomic) MBProgressHUD *hud;
-
--(BOOL)validateUrl:(NSString*)candidate;
 
 @end

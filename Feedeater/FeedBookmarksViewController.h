@@ -7,15 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AppDelegate.h"
-#import "LatestNewsViewController.h"
 #import "DataManager.h"
 
 @interface FeedBookmarksViewController : UITableViewController
 
 @property (strong, nonatomic) NSManagedObject *currentFeed;
-@property (strong, nonatomic) NSArray *bookmarksArray;
-
-@property (strong, nonatomic) DataManager *dataManager;
 
 @end

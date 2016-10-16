@@ -7,10 +7,20 @@
 //
 
 #import "StoryDetailsTableViewController.h"
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <FBSDKShareKit/FBSDKShareKit.h>
+#import <AXPopoverView.h>
+#import <Contacts/Contacts.h>
+#import <ContactsUI/ContactsUI.h>
+#import <MessageUI/MessageUI.h>
 
-@interface StoryDetailsTableViewController (){
+@interface StoryDetailsTableViewController ()<CNContactViewControllerDelegate, CNContactPickerDelegate, MFMessageComposeViewControllerDelegate, UINavigationControllerDelegate> {
     FBSDKLikeControl *likeButton;
 }
+
+@property(strong, nonatomic) CNContactPickerViewController *addressBook;
+@property(strong, nonatomic) NSString *number;
+@property (strong, nonatomic) DataManager *dataManager;
 
 @end
 
@@ -58,6 +68,7 @@
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.textLabel.textAlignment = NSTextAlignmentCenter;
+    cell.textLabel.textColor = [UIColor colorWithRed:0.16 green:0.16 blue:0.16 alpha:1.0];
     if(indexPath.row == 0){ // Story Title
         cell.textLabel.text = [self.selectedStory valueForKey:@"title"];
         cell.textLabel.numberOfLines = 3;
@@ -78,7 +89,7 @@
     }
     else if(indexPath.row > 1){
         [cell.textLabel setFont:[UIFont systemFontOfSize:17.0f weight:UIFontWeightBold]];
-        cell.textLabel.textColor = [UIColor colorWithRed:0.04 green:0.46 blue:0.87 alpha:1.0];
+        cell.textLabel.textColor = [UIColor colorWithRed:0.98 green:0.37 blue:0.38 alpha:1.0];
         cell.selectionStyle = UITableViewCellSelectionStyleDefault;
         
         if(indexPath.row == 2){

@@ -7,10 +7,13 @@
 //
 
 #import "BookmarksViewController.h"
+#import "DataManager.h"
 
 @interface BookmarksViewController (){
     NSMutableArray *feedArray;
 }
+
+@property (strong, nonatomic) DataManager *dataManager;
 
 @end
 

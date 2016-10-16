@@ -10,6 +10,9 @@
 
 @interface EditFeedViewController ()
 
+@property (strong, nonatomic) NSString *feedName;
+@property (strong, nonatomic) NSString *feedURL;
+@property (strong, nonatomic) DataManager *dataManager;
 @end
 
 @implementation EditFeedViewController

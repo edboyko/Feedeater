@@ -7,18 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "LatestNewsViewController.h"
-#import "FeedCell.h"
-#import "EditFeedViewController.h"
-#import <FBSDKLoginKit/FBSDKLoginKit.h>
-#import "DataManager.h"
 
 @interface FeedListViewController : UITableViewController
 - (IBAction)showOptions:(UIBarButtonItem *)sender;
-@property (strong, nonatomic) LatestNewsViewController *newsVC;
-
-@property (strong, nonatomic) DataManager *dataManager;
-- (void)edit:(UIButton *)sender;
 - (IBAction)addAlert:(id)sender;
 
 @end

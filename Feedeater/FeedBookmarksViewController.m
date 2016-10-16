@@ -7,9 +7,13 @@
 //
 
 #import "FeedBookmarksViewController.h"
+#import "LatestNewsViewController.h"
 
 @interface FeedBookmarksViewController ()
 
+@property (strong, nonatomic) NSArray *bookmarksArray;
+
+@property (strong, nonatomic) DataManager *dataManager;
 
 @end
 

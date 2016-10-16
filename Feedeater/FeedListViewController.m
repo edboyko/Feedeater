@@ -7,12 +7,21 @@
 //
 
 #import "FeedListViewController.h"
+#import "LatestNewsViewController.h"
+#import "FeedCell.h"
+#import "EditFeedViewController.h"
+#import "DataManager.h"
+//#import <FBSDKLoginKit/FBSDKLoginKit.h>
 
 @interface FeedListViewController (){
     LatestNewsViewController *latestNewsVC;
     EditFeedViewController *editFeedVC;
     NSUserDefaults *standarduserDefaults;
 }
+
+@property (strong, nonatomic) LatestNewsViewController *newsVC;
+
+@property (strong, nonatomic) DataManager *dataManager;
 
 @end
 

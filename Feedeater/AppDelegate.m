@@ -24,6 +24,8 @@
         [[NSUserDefaults standardUserDefaults]setValue:[NSNumber numberWithFloat:15] forKey:@"font_size"];
     }
     
+    self.window.tintColor = [UIColor colorWithRed:0.98 green:0.37 blue:0.38 alpha:1.0];
+    
     return YES;
 }
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url

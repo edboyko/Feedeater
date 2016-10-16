@@ -24,6 +24,7 @@
 -(void)configureWithObjectFromArray:(NSArray*)array atIndex:(NSInteger)index {
     self.titleLabel.text = [[array objectAtIndex:index]valueForKey:@"name"];
     self.editFeedButton.tag = index; // Give Edit Button a tag
+    self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }
 
 @end

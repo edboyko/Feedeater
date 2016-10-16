@@ -7,8 +7,14 @@
 //
 
 #import "LatestNewsViewController.h"
+#import "FeedBookmarksViewController.h"
+#import "StoryCell.h"
+#import <MBProgressHUD/MBProgressHUD.h>
+#import <QuartzCore/QuartzCore.h>
+#include <ifaddrs.h>
+#include <arpa/inet.h>
 
-@interface LatestNewsViewController (){
+@interface LatestNewsViewController () <UISearchControllerDelegate, UISearchBarDelegate, UISearchResultsUpdating> {
     StoryDetailsTableViewController *storyVC;
     FeedBookmarksViewController *feedBookmarksVC;
     NSString *keyName; // Address for the feed in the Defaults
@@ -16,6 +22,20 @@
     NSURL *finalURL;
     NSURLSession *session;
 }
+
+@property (strong, nonatomic) NSString *feedURL;
+
+@property (weak, nonatomic) MBProgressHUD *hud;
+
+@property (strong, nonatomic) NSMutableArray *newsArray;
+
+@property (strong, nonatomic) UISearchController *searchController;
+
+@property (strong, nonatomic) NSMutableArray *searchResults;
+
+@property (strong, nonatomic) NSMutableArray *visibleNews;
+
+@property (strong, nonatomic) DataManager *dataManager;
 
 @end
 
@@ -27,11 +47,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    self.refreshControl = [[UIRefreshControl alloc]init];
     
-    self.refreshControl.tintColor = [UIColor darkGrayColor];
-    [self.refreshControl addTarget:self action:@selector(pullToRefresh) forControlEvents:UIControlEventValueChanged];
-    
+    [self setUpRefreshControl];
     self.dataManager = [DataManager sharedInstance];
     
     [self setUpProgressHUD]; // Give default settings to Progress HUD
@@ -46,6 +63,16 @@
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+}
+
+-(void)setUpRefreshControl{
+    
+    self.refreshControl = [[UIRefreshControl alloc]init];
+    
+    self.refreshControl.tintColor = [UIColor darkGrayColor];
+    [self.refreshControl addTarget:self action:@selector(pullToRefresh) forControlEvents:UIControlEventValueChanged];
+    self.refreshControl.backgroundColor = [UIColor colorWithRed:0.16 green:0.16 blue:0.16 alpha:1.0];
+    self.refreshControl.tintColor = [UIColor colorWithRed:0.98 green:0.37 blue:0.38 alpha:1.0];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -226,6 +253,7 @@
         }
         cell.shown = true;
     }
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     return cell;
 }

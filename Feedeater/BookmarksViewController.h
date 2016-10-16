@@ -7,12 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "DataManager.h"
 
 
 @interface BookmarksViewController : UITableViewController
-
-@property (strong, nonatomic) DataManager *dataManager;
-
 
 @end
