@@ -24,17 +24,11 @@
 }
 
 @property (strong, nonatomic) NSString *feedURL;
-
 @property (weak, nonatomic) MBProgressHUD *hud;
-
 @property (strong, nonatomic) NSMutableArray *newsArray;
-
 @property (strong, nonatomic) UISearchController *searchController;
-
 @property (strong, nonatomic) NSMutableArray *searchResults;
-
 @property (strong, nonatomic) NSMutableArray *visibleNews;
-
 @property (strong, nonatomic) DataManager *dataManager;
 
 @end
@@ -102,24 +96,21 @@
     self.hud.center = self.view.center;
     self.hud.completionBlock = ^{
         if(self.newsArray.count == 0){
-            UIAlertController *errorAlert = [UIAlertController alertControllerWithTitle:@"Error" message:@"There was a problem with loading data." preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *okay = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-                [self.navigationController popToRootViewControllerAnimated:true];
-            }];
-            [errorAlert addAction:okay];
-            [self.navigationController presentViewController:errorAlert animated:true completion:nil];
+            [self.navigationController presentViewController:[self errorAlert] animated:YES completion:nil];
         }
     };
-    [self.hud hideAnimated:true afterDelay:hudHideDelay];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.hud hideAnimated:true afterDelay:hudHideDelay];
+    });
 }
 
--(void)showInternetAlert{
-    UIAlertController *internetAlert = [UIAlertController alertControllerWithTitle:@"Error with Loading" message:@"Please check your internet connection." preferredStyle:UIAlertControllerStyleAlert];
+-(UIAlertController*)errorAlert{
+    UIAlertController *errorAlert = [UIAlertController alertControllerWithTitle:@"Error with Loading" message:@"There was a problem with loading data." preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *okay = [UIAlertAction actionWithTitle:@"Back" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action){
         [self.navigationController popToRootViewControllerAnimated:true];
     }];
-    [internetAlert addAction:okay];
-    [self.navigationController presentViewController:internetAlert animated:YES completion:nil];
+    [errorAlert addAction:okay];
+    return errorAlert;
 }
 
 - (NSString *)getIPAddress {
@@ -187,7 +178,9 @@
     [self.tableView reloadData];
     [[session dataTaskWithURL:url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if(error){
-            [self.hud hideAnimated:true];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.hud hideAnimated:true];
+            });
         }
         else {
             NSData *data = [NSData dataWithContentsOfURL:url];

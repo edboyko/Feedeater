@@ -136,19 +136,29 @@
 - (void)setUpProgressHUD {
     
     self.hud = [MBProgressHUD showHUDAddedTo:self.tableView animated:true];
-    
     self.hud.label.text = @"Loading";
     self.hud.removeFromSuperViewOnHide = true;
     self.hud.center = CGPointMake(self.view.center.x, 200);
 }
 
+-(UIAlertController*)errorAlert{
+    UIAlertController *errorAlert = [UIAlertController alertControllerWithTitle:@"Error with Loading" message:@"There was a problem with loading data." preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *okay = [UIAlertAction actionWithTitle:@"Back" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action){
+        [self.navigationController popToRootViewControllerAnimated:true];
+    }];
+    [errorAlert addAction:okay];
+    return errorAlert;
+}
 
 -(void)getDataFromURL:(NSURL*)url{
     [[session dataTaskWithURL:url
             completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
     {
         if(error){
-            [self.hud hideAnimated:true];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.hud hideAnimated:true];
+                [self.navigationController presentViewController:[self errorAlert] animated:YES completion:nil];
+            });
         }
         else {
             NSData *data = [NSData dataWithContentsOfURL:url];
