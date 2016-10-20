@@ -21,6 +21,7 @@
 @property(strong, nonatomic) CNContactPickerViewController *addressBook;
 @property(strong, nonatomic) NSString *number;
 @property (strong, nonatomic) DataManager *dataManager;
+@property (strong, nonatomic) AXPopoverView *popover;
 
 @end
 
@@ -50,8 +51,13 @@
 
 
 -(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:true];
+    [super viewWillAppear:YES];
     likeButton.objectID = [self.selectedStory valueForKey:@"link"]; // Set up "Like" Button
+}
+
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    [self.popover removeFromSuperview];
 }
 
 #pragma mark - Table view data source
@@ -173,11 +179,11 @@
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     
-    [likeButton setHidden:true]; // Hide "Like" Button before transition
+    [likeButton setHidden:YES]; // Hide "Like" Button before transition
     
     [coordinator animateAlongsideTransition:nil completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
         likeButton.center = CGPointMake(self.view.center.x, likeButton.center.y); // Change "Like" Button position after transition
-        [likeButton setHidden:false]; // Show Button
+        [likeButton setHidden:NO]; // Show Button
     }];
 }
 
@@ -228,13 +234,13 @@
 #pragma mark - Send via SMS
 
 -(void)showMessage:(NSString*)message fromView:(UIView*)view{
-    AXPopoverView *popoverView = [AXPopoverView new];
-    popoverView.title = message;
+    self.popover = [AXPopoverView new];
+    self.popover.title = message;
     
-    popoverView.translucent = true;
-    popoverView.preferredArrowDirection = AXPopoverArrowDirectionTop;
-    popoverView.translucentStyle = AXPopoverTranslucentLight;
-    [popoverView showFromView:view animated:true duration:2.0];
+    self.popover.translucent = true;
+    self.popover.preferredArrowDirection = AXPopoverArrowDirectionTop;
+    self.popover.translucentStyle = AXPopoverTranslucentLight;
+    [self.popover showFromView:view animated:true duration:2.0];
 }
 
 -(NSString*)getNumberFromContact:(CNContact*)contact{ // Get number of selected contact

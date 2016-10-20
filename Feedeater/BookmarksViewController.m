@@ -9,19 +9,16 @@
 #import "BookmarksViewController.h"
 #import "DataManager.h"
 
-@interface BookmarksViewController (){
-    NSMutableArray *feedArray;
-}
+@interface BookmarksViewController () <NSFetchedResultsControllerDelegate>
 
 @property (strong, nonatomic) DataManager *dataManager;
-
+@property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @end
 
 @implementation BookmarksViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    feedArray = [[NSMutableArray alloc]init];
     self.dataManager = [DataManager sharedInstance];
     
     // Uncomment the following line to preserve selection between presentations.
@@ -33,19 +30,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:true];
-    [self.dataManager reloadArray];
     
-    [self findNonEmpty]; // Only show feeds that have bookmarks in them
-    
-}
-
--(void)findNonEmpty{
-    [feedArray removeAllObjects]; // Make sure array always clean
-    for(NSManagedObject *feed in self.dataManager.feedsArray){
-        if([[[feed valueForKey:@"bookmarks"]allObjects]count] > 0){ // Find only feeds that have bookmarks in them
-            [feedArray addObject:feed]; // Add non empty feed to temporary array
-        }
-    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -54,37 +39,43 @@
 }
 
 #pragma mark - Table view data source
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return feedArray.count;
+    return [[self.fetchedResultsController sections] count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [[[feedArray objectAtIndex:section]valueForKey:@"bookmarks"]count];
+    id <NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController sections][section];
+    return [sectionInfo numberOfObjects];
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    NSManagedObject *feed = [feedArray objectAtIndex:section];
-    
-    return [NSString stringWithFormat:@"%@ (%lu)",[feed valueForKey:@"name"], [[[feed valueForKey:@"bookmarks"]allObjects]count]];
+    id <NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController sections][section];
+    return [sectionInfo name];
 }
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *identifier = @"BookmarkCell";
-    UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identifier];
+    UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     
-    if(cell == nil){
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-    }
-    cell.textLabel.text = [[[[[feedArray objectAtIndex:indexPath.section]valueForKey:@"bookmarks"]allObjects] objectAtIndex:indexPath.row]valueForKey:@"name"];
-    float fontSize = [[self.dataManager standardUserDefaults]floatForKey:@"font_size"];
-    [cell.textLabel setFont:[cell.textLabel.font fontWithSize:fontSize]];
-    cell.textLabel.numberOfLines = 2;
+    [self configureCell:cell atIndexPath:indexPath];
+    
     return cell;
 }
 
+-(void)configureCell:(UITableViewCell*)cell atIndexPath:(NSIndexPath*)indexPath{
+    
+    cell.textLabel.text = [[self.fetchedResultsController objectAtIndexPath:indexPath]valueForKey:@"name"];
+    
+    float fontSize = [[self.dataManager standardUserDefaults]floatForKey:@"font_size"];
+    [cell.textLabel setFont:[cell.textLabel.font fontWithSize:fontSize]];
+    cell.textLabel.numberOfLines = 2;
+}
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSURL *url = [NSURL URLWithString:[[[[[feedArray objectAtIndex:indexPath.section]valueForKey:@"bookmarks"]allObjects] objectAtIndex:indexPath.row]valueForKey:@"url"]];
+    
+    NSString *stringURL = [[self.fetchedResultsController objectAtIndexPath:indexPath]valueForKey:@"url"];
+    NSURL *url = [NSURL URLWithString:stringURL];
     if (![[UIApplication sharedApplication] openURL:url]) {
         NSLog(@"%@%@",@"Failed to open url:",[url description]);
     }
@@ -98,27 +89,11 @@
     return YES;
 }
 
-
-
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
-        NSArray *currentBookmarksArray = [[[feedArray objectAtIndex:indexPath.section]valueForKey:@"bookmarks"]allObjects];
-        [self.dataManager deleteObject:[currentBookmarksArray objectAtIndex:indexPath.row]];
-        
-        NSIndexSet *currentSection = [NSIndexSet indexSetWithIndex:indexPath.section];
-        
-        [self.dataManager reloadArray];
-        
-        if([[[[feedArray objectAtIndex:indexPath.section]valueForKey:@"bookmarks"]allObjects]count] < 1){ // Check if last bookmark was deleted
-            [self findNonEmpty]; // Reload array to get rid of empty feeds
-            [tableView deleteSections:currentSection withRowAnimation:UITableViewRowAnimationFade]; // Delete empty section
-            [tableView reloadSectionIndexTitles];
-        }
-        else {
-            [self.tableView reloadSections:currentSection withRowAnimation:UITableViewRowAnimationFade]; // Reload section if still bookmarks left
-        }
+        [self.dataManager deleteObject:[self.fetchedResultsController objectAtIndexPath:indexPath]];
     }
 }
 
@@ -146,5 +121,95 @@
     // Pass the selected object to the new view controller.
 }
 */
+#pragma mark - Fetched Results Controller
+
+- (NSFetchedResultsController*)fetchedResultsController
+{
+    if (_fetchedResultsController != nil) {
+        return _fetchedResultsController;
+    }
+    
+    NSFetchRequest *fetchRequest = [self.dataManager fetchRequestWithEntity:@"Bookmark"];
+    
+    // Set the batch size to a suitable number.
+    [fetchRequest setFetchBatchSize:20];
+    
+    // Edit the sort key as appropriate.
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"feed.name" ascending:NO];
+    
+    [fetchRequest setSortDescriptors:@[sortDescriptor]];
+    
+    // Edit the section name key path and cache name if appropriate.
+    // nil for section name key path means "no sections".
+    NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc]
+                                                             initWithFetchRequest:fetchRequest
+                                                             managedObjectContext:self.dataManager.context
+                                                               sectionNameKeyPath:@"feed.name"
+                                                                        cacheName:@"Master"];
+    aFetchedResultsController.delegate = self;
+    
+    NSError *error = nil;
+    if (![aFetchedResultsController performFetch:&error]) {
+        
+        NSLog(@"Unresolved error %@, %@", error, error.userInfo);
+    }
+    
+    _fetchedResultsController = aFetchedResultsController;
+    return _fetchedResultsController;
+}
+
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
+{
+    [self.tableView beginUpdates];
+}
+
+- (void)controller:(NSFetchedResultsController *)controller
+  didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo
+           atIndex:(NSUInteger)sectionIndex
+     forChangeType:(NSFetchedResultsChangeType)type
+{
+    switch(type) {
+        case NSFetchedResultsChangeInsert:
+            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+            
+        case NSFetchedResultsChangeDelete:
+            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+            
+        default:
+            return;
+    }
+}
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject
+       atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type
+      newIndexPath:(NSIndexPath *)newIndexPath
+{
+    UITableView *tableView = self.tableView;
+    
+    switch(type) {
+        case NSFetchedResultsChangeInsert:
+            [tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+            
+        case NSFetchedResultsChangeDelete:
+            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+            
+        case NSFetchedResultsChangeUpdate:
+            [self configureCell:[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
+            break;
+            
+        case NSFetchedResultsChangeMove:
+            [tableView moveRowAtIndexPath:indexPath toIndexPath:newIndexPath];
+            break;
+    }
+}
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
+{
+    [self.tableView endUpdates];
+}
 
 @end

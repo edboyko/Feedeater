@@ -8,7 +8,6 @@
 
 #import "FeedListViewController.h"
 #import "LatestNewsViewController.h"
-#import "FeedCell.h"
 #import "EditFeedViewController.h"
 #import "DataManager.h"
 //#import <FBSDKLoginKit/FBSDKLoginKit.h>
@@ -50,8 +49,6 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:true];
     
-    //[self.dataManager reloadArray];
-    //[self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -60,16 +57,6 @@
 }
 
 #pragma mark - Table view data source
-
-/*
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.dataManager.feedsArray.count;
-}
-*/
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return [[self.fetchedResultsController sections] count];
@@ -84,13 +71,6 @@
     static NSString *identifier = @"CellFeed";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     
-    /*
-    if(cell == nil){
-        cell = [[FeedCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-    }
-    */
-    
-    //[cell configureWithObjectFromArray:self.dataManager.feedsArray atIndex:indexPath.row];
     [self configureCell:cell atIndexPath:indexPath];
     
     if(self.editing){
@@ -100,9 +80,6 @@
         cell.backgroundColor = [UIColor whiteColor];
     }
     
-    //[cell.editFeedButton addTarget:self action:@selector(edit:) forControlEvents:UIControlEventTouchUpInside]; // Add action to Edit Button
-    //[cell.editFeedButton addTarget:self action:@selector(editFeedAtIndexPath:) forControlEvents:UIControlEventTouchUpInside];
-    
     return cell;
 }
 
@@ -110,13 +87,11 @@
     NSManagedObject *feed = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
     cell.textLabel.text = [feed valueForKey:@"name"];
-    //cell.editFeedButton.tag = indexPath.row;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    //self.newsVC.selectedFeed = [[self.dataManager feedsArray]objectAtIndex:indexPath.row]; // Save Feed you want to edit to News View Controller
     if(!_editing){
         [self performSegueWithIdentifier:@"toNews" sender:[tableView cellForRowAtIndexPath:indexPath]];
         self.newsVC.selectedFeed = [self.fetchedResultsController objectAtIndexPath:indexPath]; // Save Feed you want to edit to News View Controller
@@ -136,6 +111,7 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
+        
         // Delete the row from the data source
         
         [self.navigationController presentViewController:[self deleteFeedAlert:indexPath] animated:YES completion:nil];
@@ -146,15 +122,6 @@
     UIAlertController *deleteFeedAlert = [UIAlertController alertControllerWithTitle:@"Delete" message:@"Are you sure you want to delete this feed?" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *deleteAction = [UIAlertAction actionWithTitle:@"Delete" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
         [self.dataManager deleteObject:[self.fetchedResultsController objectAtIndexPath:indexPath]];
-        //[self.dataManager deleteCoolObject:[self.fetchedResultsController objectAtIndexPath:indexPath]];
-        /*
-        if([self.dataManager deleteObject:[self.dataManager.feedsArray objectAtIndex:indexPath.row]]){
-            
-            [self.dataManager reloadArray];
-            [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-            
-        }
-         */
     }];
     UIAlertAction *backAction = [UIAlertAction actionWithTitle:@"Back" style:UIAlertActionStyleDefault handler:nil];
     [deleteFeedAlert addAction:backAction];

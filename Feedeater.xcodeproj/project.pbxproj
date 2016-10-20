@@ -22,7 +22,6 @@
 		670F24D51D9D6E4500FEBAC2 /* DataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F24C01D9D6E4500FEBAC2 /* DataManager.m */; };
 		670F24D61D9D6E4500FEBAC2 /* EditFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F24C21D9D6E4500FEBAC2 /* EditFeedViewController.m */; };
 		670F24D71D9D6E4500FEBAC2 /* FeedBookmarksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F24C41D9D6E4500FEBAC2 /* FeedBookmarksViewController.m */; };
-		670F24D81D9D6E4500FEBAC2 /* FeedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F24C61D9D6E4500FEBAC2 /* FeedCell.m */; };
 		670F24D91D9D6E4500FEBAC2 /* FeedListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F24C91D9D6E4500FEBAC2 /* FeedListViewController.m */; };
 		670F24DB1D9D6E4500FEBAC2 /* LatestNewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F24CC1D9D6E4500FEBAC2 /* LatestNewsViewController.m */; };
 		670F24DC1D9D6E4500FEBAC2 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 670F24CD1D9D6E4500FEBAC2 /* Settings.bundle */; };
@@ -90,8 +89,6 @@
 		670F24C21D9D6E4500FEBAC2 /* EditFeedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditFeedViewController.m; sourceTree = "<group>"; };
 		670F24C31D9D6E4500FEBAC2 /* FeedBookmarksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedBookmarksViewController.h; sourceTree = "<group>"; };
 		670F24C41D9D6E4500FEBAC2 /* FeedBookmarksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedBookmarksViewController.m; sourceTree = "<group>"; };
-		670F24C51D9D6E4500FEBAC2 /* FeedCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedCell.h; sourceTree = "<group>"; };
-		670F24C61D9D6E4500FEBAC2 /* FeedCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedCell.m; sourceTree = "<group>"; };
 		670F24C71D9D6E4500FEBAC2 /* Feedeater-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Feedeater-Bridging-Header.h"; sourceTree = "<group>"; };
 		670F24C81D9D6E4500FEBAC2 /* FeedListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedListViewController.h; sourceTree = "<group>"; };
 		670F24C91D9D6E4500FEBAC2 /* FeedListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedListViewController.m; sourceTree = "<group>"; };
@@ -210,8 +207,6 @@
 				670F24C21D9D6E4500FEBAC2 /* EditFeedViewController.m */,
 				670F24C31D9D6E4500FEBAC2 /* FeedBookmarksViewController.h */,
 				670F24C41D9D6E4500FEBAC2 /* FeedBookmarksViewController.m */,
-				670F24C51D9D6E4500FEBAC2 /* FeedCell.h */,
-				670F24C61D9D6E4500FEBAC2 /* FeedCell.m */,
 				670F24C71D9D6E4500FEBAC2 /* Feedeater-Bridging-Header.h */,
 				670F24C81D9D6E4500FEBAC2 /* FeedListViewController.h */,
 				670F24C91D9D6E4500FEBAC2 /* FeedListViewController.m */,
@@ -571,7 +566,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				670F24D41D9D6E4500FEBAC2 /* BookmarksViewController.m in Sources */,
-				670F24D81D9D6E4500FEBAC2 /* FeedCell.m in Sources */,
 				670F24DE1D9D6E4500FEBAC2 /* StoryDetailsTableViewController.m in Sources */,
 				670F24DB1D9D6E4500FEBAC2 /* LatestNewsViewController.m in Sources */,
 				670F24D91D9D6E4500FEBAC2 /* FeedListViewController.m in Sources */,

@@ -9,11 +9,12 @@
 #import "FeedBookmarksViewController.h"
 #import "LatestNewsViewController.h"
 
-@interface FeedBookmarksViewController ()
+@interface FeedBookmarksViewController () <NSFetchedResultsControllerDelegate>
 
 @property (strong, nonatomic) NSArray *bookmarksArray;
 
 @property (strong, nonatomic) DataManager *dataManager;
+@property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 
 @end
 
@@ -30,14 +31,17 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
-
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [NSFetchedResultsController deleteCacheWithName:@"Master"];
+}
 -(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:true];
+    [super viewWillAppear:animated];
     [self updateTitle];
 }
 
 -(void)updateTitle{ // Updates title to show amount of Bookmarks
-    self.title = [NSString stringWithFormat:@"Bookmarks (%lu)", [[[self.currentFeed valueForKey:@"bookmarks"]allObjects]count]];
+    self.title = [NSString stringWithFormat:@"Bookmarks (%lu)", [[[self.fetchedResultsController sections]objectAtIndex:0]numberOfObjects]];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -48,30 +52,32 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return [[self.fetchedResultsController sections] count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [[[self.currentFeed valueForKey:@"bookmarks"]allObjects]count];
+    id <NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController sections][section];
+    return [sectionInfo numberOfObjects];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *identifier = @"BookmarkCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
-    if(cell == nil){
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-    }
-    cell.textLabel.text = [[[[self.currentFeed valueForKey:@"bookmarks"]allObjects] objectAtIndex:indexPath.row]valueForKey:@"name"];
+    UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     
-    float fontSize = [[self.dataManager standardUserDefaults]floatForKey:@"font_size"];
-    [cell.textLabel setFont:[cell.textLabel.font fontWithSize:fontSize]];
-    [cell.textLabel setNumberOfLines:2];
+    [self configureCell:cell atIndexPath:indexPath];
     
     return cell;
 }
 
+-(void)configureCell:(UITableViewCell*)cell atIndexPath:(NSIndexPath*)indexPath{
+    cell.textLabel.text = [[self.fetchedResultsController objectAtIndexPath:indexPath]valueForKey:@"name"];
+    float fontSize = [[self.dataManager standardUserDefaults]floatForKey:@"font_size"];
+    [cell.textLabel setFont:[cell.textLabel.font fontWithSize:fontSize]];
+    [cell.textLabel setNumberOfLines:2];
+}
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{ // Open bookmark in browser
-    NSURL *url = [NSURL URLWithString:[[[[self.currentFeed valueForKey:@"bookmarks"]allObjects] objectAtIndex:indexPath.row ] valueForKey:@"url"]];
+    NSURL *url = [NSURL URLWithString:[[self.fetchedResultsController objectAtIndexPath:indexPath]valueForKey:@"url"]];
     if (![[UIApplication sharedApplication] openURL:url]) {
         NSLog(@"%@%@",@"Failed to open url:",[url description]);
     }
@@ -87,19 +93,8 @@
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        NSArray *currentBookmarksArray = [[self.currentFeed valueForKey:@"bookmarks"]allObjects];
-        [self.dataManager deleteObject:[currentBookmarksArray objectAtIndex:indexPath.row]];
-        
-        [self.dataManager reloadArray];
+        [self.dataManager deleteObject:[self.fetchedResultsController objectAtIndexPath:indexPath]];
         [self updateTitle];
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        /*
-        if([self.dataManager deleteObject:[currentBookmarksArray objectAtIndex:indexPath.row]]){
-            [self.dataManager reloadArray];
-            [self updateTitle];
-            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        }
-        */
     }
 }
 
@@ -127,5 +122,99 @@
     // Pass the selected object to the new view controller.
 }
 */
+#pragma mark - Fetched Results Controller
+
+- (NSFetchedResultsController*)fetchedResultsController
+{
+    if (_fetchedResultsController != nil) {
+        return _fetchedResultsController;
+    }
+    
+    NSFetchRequest *fetchRequest = [self.dataManager fetchRequestWithEntity:@"Bookmark"];
+    
+    // Set the batch size to a suitable number.
+    [fetchRequest setFetchBatchSize:20];
+    
+    // Edit the sort key as appropriate.
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:NO];
+    
+    NSPredicate *feedPredicate = [NSPredicate predicateWithFormat:@"feed.name like %@", [self.currentFeed valueForKey:@"name"]];
+    
+    [fetchRequest setPredicate:feedPredicate];
+    [fetchRequest setSortDescriptors:@[sortDescriptor]];
+    
+    // Edit the section name key path and cache name if appropriate.
+    // nil for section name key path means "no sections".
+    NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc]
+                                                             initWithFetchRequest:fetchRequest
+                                                             managedObjectContext:self.dataManager.context
+                                                               sectionNameKeyPath:nil
+                                                                        cacheName:@"Master"];
+    aFetchedResultsController.delegate = self;
+    
+    NSError *error = nil;
+    if (![aFetchedResultsController performFetch:&error]) {
+        // Replace this implementation with code to handle the error appropriately.
+        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+        NSLog(@"Unresolved error %@, %@", error, error.userInfo);
+    }
+    
+    _fetchedResultsController = aFetchedResultsController;
+    return _fetchedResultsController;
+}
+
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
+{
+    [self.tableView beginUpdates];
+}
+
+- (void)controller:(NSFetchedResultsController *)controller
+  didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo
+           atIndex:(NSUInteger)sectionIndex
+     forChangeType:(NSFetchedResultsChangeType)type
+{
+    switch(type) {
+        case NSFetchedResultsChangeInsert:
+            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+            
+        case NSFetchedResultsChangeDelete:
+            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+            
+        default:
+            return;
+    }
+}
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject
+       atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type
+      newIndexPath:(NSIndexPath *)newIndexPath
+{
+    UITableView *tableView = self.tableView;
+    
+    switch(type) {
+        case NSFetchedResultsChangeInsert:
+            [tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+            
+        case NSFetchedResultsChangeDelete:
+            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+            
+        case NSFetchedResultsChangeUpdate:
+            [self configureCell:[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
+            break;
+            
+        case NSFetchedResultsChangeMove:
+            [tableView moveRowAtIndexPath:indexPath toIndexPath:newIndexPath];
+            break;
+    }
+}
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
+{
+    [self.tableView endUpdates];
+}
 
 @end
