@@ -13,7 +13,7 @@
 #import "DataManager.h"
 //#import <FBSDKLoginKit/FBSDKLoginKit.h>
 
-@interface FeedListViewController (){
+@interface FeedListViewController () <NSFetchedResultsControllerDelegate>{
     LatestNewsViewController *latestNewsVC;
     EditFeedViewController *editFeedVC;
     NSUserDefaults *standarduserDefaults;
@@ -23,13 +23,16 @@
 
 @property (strong, nonatomic) DataManager *dataManager;
 
+@property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
+
+@property BOOL editing;
+
 @end
 
 @implementation FeedListViewController
 
 -(void)viewDidLoad{
     [super viewDidLoad];
-    
     
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc]init];
     self.refreshControl.backgroundColor = [UIColor purpleColor];
@@ -47,8 +50,8 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:true];
     
-    [self.dataManager reloadArray];
-    [self.tableView reloadData];
+    //[self.dataManager reloadArray];
+    //[self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -58,6 +61,7 @@
 
 #pragma mark - Table view data source
 
+/*
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
@@ -65,33 +69,70 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.dataManager.feedsArray.count;
 }
+*/
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return [[self.fetchedResultsController sections] count];
+}
 
-- (FeedCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    id <NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController sections][section];
+    return [sectionInfo numberOfObjects];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *identifier = @"CellFeed";
-    FeedCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     
+    /*
     if(cell == nil){
         cell = [[FeedCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
+    */
     
-    [cell configureWithObjectFromArray:self.dataManager.feedsArray atIndex:indexPath.row];
+    //[cell configureWithObjectFromArray:self.dataManager.feedsArray atIndex:indexPath.row];
+    [self configureCell:cell atIndexPath:indexPath];
     
-    [cell.editFeedButton addTarget:self action:@selector(edit:) forControlEvents:UIControlEventTouchUpInside]; // Add action to Edit Button
+    if(self.editing){
+        cell.backgroundColor = [UIColor colorWithRed:0.98 green:0.37 blue:0.38 alpha:1.0];
+    }
+    else {
+        cell.backgroundColor = [UIColor whiteColor];
+    }
+    
+    //[cell.editFeedButton addTarget:self action:@selector(edit:) forControlEvents:UIControlEventTouchUpInside]; // Add action to Edit Button
+    //[cell.editFeedButton addTarget:self action:@selector(editFeedAtIndexPath:) forControlEvents:UIControlEventTouchUpInside];
     
     return cell;
 }
 
+-(void)configureCell:(UITableViewCell*)cell atIndexPath:(NSIndexPath*)indexPath{
+    NSManagedObject *feed = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    
+    cell.textLabel.text = [feed valueForKey:@"name"];
+    //cell.editFeedButton.tag = indexPath.row;
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    
+}
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    self.newsVC.selectedFeed = [[self.dataManager feedsArray]objectAtIndex:indexPath.row]; // Save Feed you want to edit to News View Controller
-    self.newsVC.title = [self.newsVC.selectedFeed valueForKey:@"name"]; // Change News View Controller's title to selected feed Name
+    //self.newsVC.selectedFeed = [[self.dataManager feedsArray]objectAtIndex:indexPath.row]; // Save Feed you want to edit to News View Controller
+    if(!_editing){
+        [self performSegueWithIdentifier:@"toNews" sender:[tableView cellForRowAtIndexPath:indexPath]];
+        self.newsVC.selectedFeed = [self.fetchedResultsController objectAtIndexPath:indexPath]; // Save Feed you want to edit to News View Controller
+        
+        self.newsVC.title = [self.newsVC.selectedFeed valueForKey:@"name"]; // Change News View Controller's title to selected feed Name
+    }
+    else {
+        [self performSegueWithIdentifier:@"toEditFeed" sender:[tableView cellForRowAtIndexPath:indexPath]];
+        editFeedVC.selectedFeed = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    }
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return NO if you do not want the specified item to be editable.
     return YES;
 }
-
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
@@ -104,12 +145,16 @@
 -(UIAlertController*)deleteFeedAlert:(NSIndexPath*)indexPath{
     UIAlertController *deleteFeedAlert = [UIAlertController alertControllerWithTitle:@"Delete" message:@"Are you sure you want to delete this feed?" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *deleteAction = [UIAlertAction actionWithTitle:@"Delete" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
+        [self.dataManager deleteObject:[self.fetchedResultsController objectAtIndexPath:indexPath]];
+        //[self.dataManager deleteCoolObject:[self.fetchedResultsController objectAtIndexPath:indexPath]];
+        /*
         if([self.dataManager deleteObject:[self.dataManager.feedsArray objectAtIndex:indexPath.row]]){
             
             [self.dataManager reloadArray];
             [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
             
         }
+         */
     }];
     UIAlertAction *backAction = [UIAlertAction actionWithTitle:@"Back" style:UIAlertActionStyleDefault handler:nil];
     [deleteFeedAlert addAction:backAction];
@@ -146,13 +191,6 @@
         // Find Edit Feed View Controller
         editFeedVC = [segue destinationViewController];
     }
-}
-
-
--(void)edit:(UIButton*)sender
-{
-    // Save Feed you want to edit to Edit Feed View Controller
-    editFeedVC.selectedFeed = [[self.dataManager feedsArray]objectAtIndex:sender.tag];
 }
 
 - (BOOL)validateUrl:(NSString *)candidate { // Checks if URL is in correct format
@@ -240,29 +278,41 @@
 - (IBAction)showOptions:(UIBarButtonItem *)sender {
     
     UIAlertController *options= [UIAlertController alertControllerWithTitle:@"Options" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-    
-    UIAlertAction* openBookmarks = [UIAlertAction actionWithTitle:@"All Bookmarks" style:UIAlertActionStyleDefault
-    handler:^(UIAlertAction *action)
+    UIAlertAction* editingMode = [UIAlertAction actionWithTitle:@"Editing Mode"
+                                                          style:UIAlertActionStyleDefault
+                                                        handler:^(UIAlertAction *action)
+    {
+        NSLog(@"Enable Editing Mode!");
+        self.editing = !self.editing;
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
+    }];
+    UIAlertAction* openBookmarks = [UIAlertAction actionWithTitle:@"All Bookmarks"
+                                                            style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction *action)
     {
         // Open Bookmarks
         [self performSegueWithIdentifier:@"bookMarks" sender:nil];
     }];
     
-    UIAlertAction* openSettings = [UIAlertAction actionWithTitle:@"Settings" style:UIAlertActionStyleDefault
-    handler:^(UIAlertAction *action)
+    UIAlertAction* openSettings = [UIAlertAction actionWithTitle:@"Settings"
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:^(UIAlertAction *action)
     {
         // Open Settings
         [[UIApplication sharedApplication]openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
     }];
     
-    UIAlertAction* about = [UIAlertAction actionWithTitle:@"About" style:UIAlertActionStyleDefault
-    handler:^(UIAlertAction *action)
+    UIAlertAction* about = [UIAlertAction actionWithTitle:@"About"
+                                                    style:UIAlertActionStyleDefault
+                                                  handler:^(UIAlertAction *action)
     {
         // Open About screen
         [self performSegueWithIdentifier:@"toInfo" sender:nil];
     }];
     
-    UIAlertAction* close = [UIAlertAction actionWithTitle:@"Close" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction* close = [UIAlertAction actionWithTitle:@"Close"
+                                                    style:UIAlertActionStyleCancel
+                                                  handler:nil];
     
     // Login with facebook. No need for it at the moment
     /*
@@ -285,6 +335,7 @@
     */
     
     //[options addAction:loginToFacebook];
+    [options addAction:editingMode];
     [options addAction:openBookmarks];
     [options addAction:openSettings];
     [options addAction:about];
@@ -295,6 +346,97 @@
 
 -(void)toBookmarks:(id)sender{
     [self performSegueWithIdentifier:@"bookMarks" sender:sender];
+}
+
+#pragma mark - Fetched Results Controller
+
+- (NSFetchedResultsController*)fetchedResultsController
+{
+    if (_fetchedResultsController != nil) {
+        return _fetchedResultsController;
+    }
+    
+    NSFetchRequest *fetchRequest = [self.dataManager fetchRequestWithEntity:@"Feed"];
+    
+    // Set the batch size to a suitable number.
+    [fetchRequest setFetchBatchSize:20];
+    
+    // Edit the sort key as appropriate.
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:NO];
+    
+    [fetchRequest setSortDescriptors:@[sortDescriptor]];
+    
+    // Edit the section name key path and cache name if appropriate.
+    // nil for section name key path means "no sections".
+    NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc]
+                                                             initWithFetchRequest:fetchRequest
+                                                             managedObjectContext:self.dataManager.context
+                                                             sectionNameKeyPath:nil cacheName:@"Master"];
+    aFetchedResultsController.delegate = self;
+    
+    NSError *error = nil;
+    if (![aFetchedResultsController performFetch:&error]) {
+        // Replace this implementation with code to handle the error appropriately.
+        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+        NSLog(@"Unresolved error %@, %@", error, error.userInfo);
+    }
+    
+    _fetchedResultsController = aFetchedResultsController;
+    return _fetchedResultsController;
+}
+
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
+{
+    [self.tableView beginUpdates];
+}
+
+- (void)controller:(NSFetchedResultsController *)controller
+  didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo
+           atIndex:(NSUInteger)sectionIndex
+     forChangeType:(NSFetchedResultsChangeType)type
+{
+    switch(type) {
+        case NSFetchedResultsChangeInsert:
+            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+            
+        case NSFetchedResultsChangeDelete:
+            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+            
+        default:
+            return;
+    }
+}
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject
+       atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type
+      newIndexPath:(NSIndexPath *)newIndexPath
+{
+    UITableView *tableView = self.tableView;
+    
+    switch(type) {
+        case NSFetchedResultsChangeInsert:
+            [tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+            
+        case NSFetchedResultsChangeDelete:
+            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+            
+        case NSFetchedResultsChangeUpdate:
+            [self configureCell:[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
+            break;
+            
+        case NSFetchedResultsChangeMove:
+            [tableView moveRowAtIndexPath:indexPath toIndexPath:newIndexPath];
+            break;
+    }
+}
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
+{
+    [self.tableView endUpdates];
 }
 
 @end

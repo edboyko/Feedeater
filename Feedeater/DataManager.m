@@ -9,8 +9,6 @@
 #import "DataManager.h"
 @interface DataManager()
 
-@property (strong, nonatomic, readonly) NSManagedObjectContext *context;
-
 @end
 
 @implementation DataManager
@@ -38,11 +36,17 @@
 }
 
 -(NSManagedObjectContext*)context{
-    
     return [[(AppDelegate*)[[UIApplication sharedApplication] delegate] persistentContainer]viewContext];
 }
 
 #pragma mark - Get Data
+
+-(NSFetchRequest*)fetchRequestWithEntity:(NSString *)entityName{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc]init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:self.context];
+    [fetchRequest setEntity:entity];
+    return fetchRequest;
+}
 
 -(void)reloadArray{
     NSManagedObjectContext *context = [self context];
@@ -107,6 +111,15 @@
 
 #pragma mark - Delete Data
 
+-(void)deleteObject:(NSManagedObject*)object{
+    [self.context deleteObject:object];
+    NSError *deleteError = nil;
+    if(![object.managedObjectContext save:&deleteError]){
+        NSLog(@"Unable to save managed object context.");
+        NSLog(@"%@, %@", deleteError, deleteError.localizedDescription);
+    }
+}
+/*
 -(BOOL)deleteObject:(id)object{
     NSManagedObject *objectToDelete = object;
     NSManagedObjectContext *context = [self context];
@@ -123,7 +136,7 @@
         return true;
     }
 }
-
+*/
 #pragma mark - User Defaults
 
 -(NSUserDefaults*)standardUserDefaults{

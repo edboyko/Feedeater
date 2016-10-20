@@ -105,20 +105,19 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
         NSArray *currentBookmarksArray = [[[feedArray objectAtIndex:indexPath.section]valueForKey:@"bookmarks"]allObjects];
-        if([self.dataManager deleteObject:[currentBookmarksArray objectAtIndex:indexPath.row]]){
-            
-            NSIndexSet *currentSection = [NSIndexSet indexSetWithIndex:indexPath.section];
-            
-            [self.dataManager reloadArray];
-            
-            if([[[[feedArray objectAtIndex:indexPath.section]valueForKey:@"bookmarks"]allObjects]count] < 1){ // Check if last bookmark was deleted
-                [self findNonEmpty]; // Reload array to get rid of empty feeds
-                [tableView deleteSections:currentSection withRowAnimation:UITableViewRowAnimationFade]; // Delete empty section
-                [tableView reloadSectionIndexTitles];
-            }
-            else {
-                [self.tableView reloadSections:currentSection withRowAnimation:UITableViewRowAnimationFade]; // Reload section if still bookmarks left
-            }
+        [self.dataManager deleteObject:[currentBookmarksArray objectAtIndex:indexPath.row]];
+        
+        NSIndexSet *currentSection = [NSIndexSet indexSetWithIndex:indexPath.section];
+        
+        [self.dataManager reloadArray];
+        
+        if([[[[feedArray objectAtIndex:indexPath.section]valueForKey:@"bookmarks"]allObjects]count] < 1){ // Check if last bookmark was deleted
+            [self findNonEmpty]; // Reload array to get rid of empty feeds
+            [tableView deleteSections:currentSection withRowAnimation:UITableViewRowAnimationFade]; // Delete empty section
+            [tableView reloadSectionIndexTitles];
+        }
+        else {
+            [self.tableView reloadSections:currentSection withRowAnimation:UITableViewRowAnimationFade]; // Reload section if still bookmarks left
         }
     }
 }

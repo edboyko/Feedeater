@@ -94,11 +94,15 @@
 -(UIAlertController*)deleteFeedAlert{
     UIAlertController *deleteFeedAlert = [UIAlertController alertControllerWithTitle:@"Delete" message:@"Are you sure you want to delete this feed?" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *deleteAction = [UIAlertAction actionWithTitle:@"Delete" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
+        [self.dataManager deleteObject:self.selectedFeed];
+        [self.navigationController popToRootViewControllerAnimated:true];
+        /*
         if([self.dataManager deleteObject:self.selectedFeed]){
-            
+         
             [self.navigationController popToRootViewControllerAnimated:true];
             
         }
+        */
     }];
     UIAlertAction *backAction = [UIAlertAction actionWithTitle:@"Back" style:UIAlertActionStyleDefault handler:nil];
     [deleteFeedAlert addAction:backAction];

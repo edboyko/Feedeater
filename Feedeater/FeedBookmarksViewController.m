@@ -88,11 +88,18 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         NSArray *currentBookmarksArray = [[self.currentFeed valueForKey:@"bookmarks"]allObjects];
+        [self.dataManager deleteObject:[currentBookmarksArray objectAtIndex:indexPath.row]];
+        
+        [self.dataManager reloadArray];
+        [self updateTitle];
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        /*
         if([self.dataManager deleteObject:[currentBookmarksArray objectAtIndex:indexPath.row]]){
             [self.dataManager reloadArray];
             [self updateTitle];
             [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         }
+        */
     }
 }
 

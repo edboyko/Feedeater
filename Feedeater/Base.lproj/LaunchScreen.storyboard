@@ -19,6 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Feedeater_logo_solidBG.png" translatesAutoresizingMaskIntoConstraints="NO" id="yTf-eb-XiL">
+                                <color key="tintColor" red="0.98236697912216187" green="0.36690917611122131" blue="0.38265451788902283" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="256" id="J4R-L8-urZ"/>
                                     <constraint firstAttribute="height" constant="256" id="ivq-oH-n7H"/>

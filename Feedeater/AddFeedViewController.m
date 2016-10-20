@@ -61,19 +61,27 @@
     [self addAlert:@""];
 }
 
+-(NSString*) removeSpacesFromSearchString:(NSString*)string{
+    NSString *newString = string;
+    if([newString containsString:@" "]){
+        newString = [newString stringByReplacingOccurrencesOfString:@" " withString:@""];
+    }
+    return newString;
+}
+
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     if(![textField.text isEqualToString:@""]){
+        
         [self setUpProgressHUD];
         [self.tableView addSubview:self.hud]; // Add "Loading" indicator
-        NSString *space = @"%20";
-        NSString *urlString = [NSString stringWithFormat:@"https://ajax.googleapis.com/ajax/services/feed/find?v=1.0&q=rss%@feed%@%@",space,space,self.searchField.text];
+        NSString *result = self.searchField.text;
+        result = [self removeSpacesFromSearchString:result];
+        NSString *urlString = [NSString stringWithFormat:@"https://ajax.googleapis.com/ajax/services/feed/find?v=1.0&q=%@",result];
         searchURL = [NSURL URLWithString:urlString];
         [self getDataFromURL:searchURL];
-        return true;
+        [textField resignFirstResponder];
     }
-    else {
-        return false;
-    }
+    return NO;
 }
 
 
@@ -141,11 +149,11 @@
     self.hud.center = CGPointMake(self.view.center.x, 200);
 }
 
--(UIAlertController*)errorAlert{
-    UIAlertController *errorAlert = [UIAlertController alertControllerWithTitle:@"Error with Loading" message:@"There was a problem with loading data." preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *okay = [UIAlertAction actionWithTitle:@"Back" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action){
-        [self.navigationController popToRootViewControllerAnimated:true];
-    }];
+-(UIAlertController*)errorAlertWithMessage:(NSString*)message{
+    UIAlertController *errorAlert = [UIAlertController alertControllerWithTitle:@"Error"
+                                                                        message:message
+                                                                 preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *okay = [UIAlertAction actionWithTitle:@"Back" style:UIAlertActionStyleCancel handler:nil];
     [errorAlert addAction:okay];
     return errorAlert;
 }
@@ -156,8 +164,11 @@
     {
         if(error){
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self.hud hideAnimated:true];
-                [self.navigationController presentViewController:[self errorAlert] animated:YES completion:nil];
+                [self.hud hideAnimated:YES];
+                NSString *alertMessage = @"There was a problem with loading data.";
+                [self.navigationController presentViewController:[self errorAlertWithMessage:alertMessage]
+                                                        animated:YES
+                                                      completion:nil];
             });
         }
         else {

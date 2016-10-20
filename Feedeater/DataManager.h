@@ -14,14 +14,16 @@
 @property (strong,nonatomic) NSArray *feedsArray;
 @property (strong,nonatomic) NSUserDefaults *standardUserDefaults;
 
-@property (strong, nonatomic) NSFetchedResultsController *frc;
+@property (strong, nonatomic) NSManagedObjectContext *context;
 
 +(DataManager*)sharedInstance;
 -(void)reloadArray;
 -(NSArray*)getBookmarks;
+-(NSFetchRequest*)fetchRequestWithEntity:(NSString*)entityName;
 
 -(BOOL)saveFeed:(NSString*)name url:(NSString*)url;
--(BOOL)deleteObject:(id)object;
+//-(BOOL)deleteObject:(id)object;
+-(void)deleteObject:(NSManagedObject*)object;
 -(BOOL)saveBookmark:(NSString*)name url:(NSString*)url feed:(NSManagedObject*)feed;
 
 @end
