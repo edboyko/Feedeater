@@ -17,6 +17,7 @@
 }
 
 @property (strong, nonatomic) DataManager *dataManager;
+
 @property (strong, nonatomic) NSArray *resultsArray;
 
 @property (strong, nonatomic) MBProgressHUD *hud;
@@ -52,13 +53,13 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSString *selectedFeedURL = [[[tableView cellForRowAtIndexPath:indexPath]textLabel]text];
-    [self addAlert:selectedFeedURL];
+    [self presentViewController:[self addAlertWithName:@"" andURL:selectedFeedURL] animated:YES completion:nil];
 }
 
 #pragma mark - Adding Feed
 
 -(void)addAlert{
-    [self addAlert:@""];
+    [self.navigationController presentViewController:[self addAlertWithName:@"" andURL:@""] animated:YES completion:nil];
 }
 
 -(NSString*) removeSpacesFromSearchString:(NSString*)string{
@@ -91,7 +92,21 @@
     return [urlTest evaluateWithObject:candidate];
 }
 
-- (void)addAlert:(NSString* )urlText { // Shows "Add Feed" alert view
+- (UIAlertController*)errorAlertWithTitle:(NSString*)title
+                               andMessage:(NSString*)message
+                                     name:(NSString*)name
+                                      url:(NSString*)url {
+    UIAlertController *newFeedAlert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *okay = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction* action){
+        UIAlertController *addFeedAlert = [self addAlertWithName:name andURL:url];
+        [self.navigationController presentViewController:addFeedAlert animated:YES completion:nil];
+    }];
+    [newFeedAlert addAction:okay];
+    return newFeedAlert;
+}
+
+- (UIAlertController*)addAlertWithName:(NSString*)name andURL:(NSString*)urlText { // Shows "Add Feed" alert view
     NSString *alertMessage = @"Please fill all fields.\nPlease provide correct URL address.";
     UIAlertController *newFeedAlert = [UIAlertController alertControllerWithTitle:@"Add New Feed" message:alertMessage preferredStyle:UIAlertControllerStyleAlert];
     // Add textfields for Name and URL address
@@ -103,6 +118,7 @@
     
     nameField.placeholder = @"Name";
     urlField.placeholder = @"URL";
+    nameField.text = name;
     urlField.text = urlText;
     
     UIAlertAction *addFeed = [UIAlertAction actionWithTitle:@"Add" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
@@ -110,33 +126,28 @@
             if([self validateUrl:urlField.text]){ // If all fields were filled correctly, add new feed
                 
                 if([self.dataManager saveFeed:nameField.text url:urlField.text]){
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self.navigationController popToRootViewControllerAnimated:true];
-                    });
+                    [self.navigationController popToRootViewControllerAnimated:true];
                 }
             }
             else { // Inform user that they failed to provide correct URL
-                UIAlertController *newFeedAlert = [UIAlertController alertControllerWithTitle:@"Wrong URL" message:@"Please provide correct URL address." preferredStyle:UIAlertControllerStyleAlert];
-                
-                UIAlertAction *okay = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil];
-                [newFeedAlert addAction:okay];
-                [self presentViewController:newFeedAlert animated:true completion:nil];
+                [self.navigationController presentViewController:[self errorAlertWithTitle:@"Wrong URL"
+                                                           andMessage:@"Please provide correct url address."
+                                                                 name:[[[newFeedAlert textFields]firstObject]text]
+                                                                  url:[[[newFeedAlert textFields]lastObject]text]] animated:YES completion:nil];
             }
         }
         else { // Inform user that they failed to fill all fields
-            UIAlertController *newFeedAlert = [UIAlertController alertControllerWithTitle:@"Please Fill All Fields" message:nil preferredStyle:UIAlertControllerStyleAlert];
-            
-            UIAlertAction *okay = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil];
-            [newFeedAlert addAction:okay];
-            [self presentViewController:newFeedAlert animated:true completion:nil];
-            
+            [self.navigationController presentViewController:[self errorAlertWithTitle:@"Please Fill All Fields"
+                                                       andMessage:nil
+                                                             name:[[[newFeedAlert textFields]firstObject]text]
+                                                              url:[[[newFeedAlert textFields]lastObject]text]] animated:YES completion:nil];
         }
     }];
     UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
     [newFeedAlert addAction:addFeed];
     [newFeedAlert addAction:cancel];
     
-    [self presentViewController:newFeedAlert animated:true completion:nil];
+    return newFeedAlert;
 }
 
 #pragma mark - Finding Feeds

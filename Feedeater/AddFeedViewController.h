@@ -10,9 +10,9 @@
 
 @interface AddFeedViewController : UIViewController
 
-@property (strong, nonatomic) IBOutlet UIButton *addManuallyButton;
+@property (weak, nonatomic) IBOutlet UIButton *addManuallyButton;
 
-@property (strong, nonatomic) IBOutlet UITextField *searchField;
-@property (strong, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UITextField *searchField;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end

@@ -10,8 +10,8 @@
 #import "DataManager.h"
 
 @interface EditFeedViewController : UIViewController
-@property (strong, nonatomic) IBOutlet UITextField *nameField;
-@property (strong, nonatomic) IBOutlet UITextField *urlField;
+@property (weak, nonatomic) IBOutlet UITextField *nameField;
+@property (weak, nonatomic) IBOutlet UITextField *urlField;
 
 @property (strong, nonatomic) NSManagedObject *selectedFeed;
 

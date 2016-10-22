@@ -13,18 +13,15 @@
 //#import <FBSDKLoginKit/FBSDKLoginKit.h>
 
 @interface FeedListViewController () <NSFetchedResultsControllerDelegate>{
-    LatestNewsViewController *latestNewsVC;
+    LatestNewsViewController *newsVC;
     EditFeedViewController *editFeedVC;
-    NSUserDefaults *standarduserDefaults;
 }
-
-@property (strong, nonatomic) LatestNewsViewController *newsVC;
 
 @property (strong, nonatomic) DataManager *dataManager;
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 
-@property BOOL editing;
+@property (assign, nonatomic) BOOL editing;
 
 @end
 
@@ -33,17 +30,8 @@
 -(void)viewDidLoad{
     [super viewDidLoad];
     
-    UIRefreshControl *refreshControl = [[UIRefreshControl alloc]init];
-    self.refreshControl.backgroundColor = [UIColor purpleColor];
-    self.refreshControl.tintColor = [UIColor whiteColor];
-    [refreshControl addTarget:self action:@selector(update) forControlEvents:UIControlEventValueChanged];
-    
-    self.title = @"Feeds";
+    self.title = @"Saved Feeds";
     self.dataManager = [DataManager sharedInstance];
-}
-
--(void)update{
-    NSLog(@"update!");
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -91,12 +79,14 @@
     
 }
 
+#pragma mark Table View Delegate
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if(!_editing){
         [self performSegueWithIdentifier:@"toNews" sender:[tableView cellForRowAtIndexPath:indexPath]];
-        self.newsVC.selectedFeed = [self.fetchedResultsController objectAtIndexPath:indexPath]; // Save Feed you want to edit to News View Controller
+        newsVC.selectedFeed = [self.fetchedResultsController objectAtIndexPath:indexPath]; // Save Feed you want to edit to News View Controller
         
-        self.newsVC.title = [self.newsVC.selectedFeed valueForKey:@"name"]; // Change News View Controller's title to selected feed Name
+        newsVC.title = [newsVC.selectedFeed valueForKey:@"name"]; // Change News View Controller's title to selected feed Name
     }
     else {
         [self performSegueWithIdentifier:@"toEditFeed" sender:[tableView cellForRowAtIndexPath:indexPath]];
@@ -149,22 +139,25 @@
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
+    
     if([segue.identifier isEqual: @"toNews"]){
         // Find News View Controller
-        self.newsVC = [segue destinationViewController];
+        newsVC = [segue destinationViewController];
     }
     else if([segue.identifier isEqual: @"toEditFeed"]){
         // Find Edit Feed View Controller
         editFeedVC = [segue destinationViewController];
     }
 }
+#pragma mark - Add Feed Alert
 
+/*
 - (BOOL)validateUrl:(NSString *)candidate { // Checks if URL is in correct format
     NSString *urlRegEx = @"http(s)?://([\\w-]+\\.)+[\\w-]+(/[\\w- ./?%&amp;=]*)?";
     NSPredicate *urlTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", urlRegEx];
     return [urlTest evaluateWithObject:candidate];
 }
+
 
 - (IBAction)addAlert:(id)sender { // Shows "Add Feed" alert view
     NSString *alertMessage = @"Please fill all fields.\nPlease provide correct URL address.";
@@ -214,6 +207,7 @@
     
     [self presentViewController:newFeedAlert animated:true completion:nil];
 }
+*/
 
 /*
 - (void)loginWithFacebook { // Performs facebook login or logout
@@ -242,6 +236,8 @@
 }
 */
 
+#pragma mark - Options
+
 - (IBAction)showOptions:(UIBarButtonItem *)sender {
     
     UIAlertController *options= [UIAlertController alertControllerWithTitle:@"Options" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
@@ -250,7 +246,7 @@
                                                         handler:^(UIAlertAction *action)
     {
         NSLog(@"Enable Editing Mode!");
-        self.editing = !self.editing;
+        _editing = !_editing;
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
     }];
     UIAlertAction* openBookmarks = [UIAlertAction actionWithTitle:@"All Bookmarks"
@@ -311,10 +307,6 @@
     [self presentViewController:options animated:YES completion:nil];
 }
 
--(void)toBookmarks:(id)sender{
-    [self performSegueWithIdentifier:@"bookMarks" sender:sender];
-}
-
 #pragma mark - Fetched Results Controller
 
 - (NSFetchedResultsController*)fetchedResultsController
@@ -344,7 +336,7 @@
     NSError *error = nil;
     if (![aFetchedResultsController performFetch:&error]) {
         // Replace this implementation with code to handle the error appropriately.
-        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+        
         NSLog(@"Unresolved error %@, %@", error, error.userInfo);
     }
     

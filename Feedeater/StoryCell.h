@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface StoryCell : UITableViewCell
-@property (strong, nonatomic) IBOutlet UILabel *titleLabel;
-@property (strong, nonatomic) IBOutlet UIButton *openButton;
-@property BOOL shown;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UIButton *openButton;
+@property (assign, nonatomic) BOOL shown;
 
 @end

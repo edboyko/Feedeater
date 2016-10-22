@@ -50,7 +50,7 @@
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     id <NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController sections][section];
-    return [sectionInfo name];
+    return [NSString stringWithFormat: @"%@ (%lu)", [sectionInfo name], (unsigned long)[sectionInfo numberOfObjects]];
 }
 
 

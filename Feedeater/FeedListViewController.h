@@ -10,6 +10,5 @@
 
 @interface FeedListViewController : UITableViewController
 - (IBAction)showOptions:(UIBarButtonItem *)sender;
-- (IBAction)addAlert:(id)sender;
 
 @end
