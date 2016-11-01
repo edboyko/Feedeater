@@ -27,6 +27,7 @@
     return dataManager;
 }
 
+/*
 -(id)init{
     self = [super init];
     if(self){
@@ -34,6 +35,7 @@
     }
     return self;
 }
+*/
 
 -(NSManagedObjectContext*)context{
     return [[(AppDelegate*)[[UIApplication sharedApplication] delegate] persistentContainer]viewContext];
@@ -47,7 +49,7 @@
     [fetchRequest setEntity:entity];
     return fetchRequest;
 }
-
+/*
 -(void)reloadArray{
     NSManagedObjectContext *context = [self context];
     NSEntityDescription *feedEntity = [NSEntityDescription entityForName:@"Feed" inManagedObjectContext:context];
@@ -56,7 +58,7 @@
     [request setEntity:feedEntity];
     self.feedsArray = [context executeFetchRequest:request error:&error];
 }
-
+*/
 -(NSArray*)getBookmarks{
     NSManagedObjectContext *context = self.context;
     NSEntityDescription *bookmarkEntity = [NSEntityDescription entityForName:@"Bookmark" inManagedObjectContext:context];
@@ -65,10 +67,10 @@
     [request setEntity:bookmarkEntity];
     return [context executeFetchRequest:request error:&error];
 }
-
+ 
 #pragma mark - Save Data
 
--(BOOL)saveFeed:(NSString*)name url:(NSString*)url{
+-(void)saveFeed:(NSString*)name url:(NSString*)url{
     NSManagedObjectContext *context = self.context;
     NSManagedObject *newFeed = [NSEntityDescription insertNewObjectForEntityForName:@"Feed" inManagedObjectContext:context];
     
@@ -80,14 +82,10 @@
     if (![newFeed.managedObjectContext save:&error]) {
         NSLog(@"Unable to save managed object context.");
         NSLog(@"%@, %@", error, error.localizedDescription);
-        return false;
-    }
-    else {
-        return true;
     }
 }
 
--(BOOL)saveBookmark:(NSString*)name url:(NSString*)url feed:(NSManagedObject*)feed{
+-(void)saveBookmark:(NSString*)name url:(NSString*)url feed:(NSManagedObject*)feed{
     
     NSManagedObjectContext *context = self.context;
     
@@ -102,10 +100,6 @@
     if (![newBookmark.managedObjectContext save:&error]) {
         NSLog(@"Unable to save managed object context.");
         NSLog(@"%@, %@", error, error.localizedDescription);
-        return false;
-    }
-    else {
-        return true;
     }
 }
 
@@ -119,24 +113,7 @@
         NSLog(@"%@, %@", deleteError, deleteError.localizedDescription);
     }
 }
-/*
--(BOOL)deleteObject:(id)object{
-    NSManagedObject *objectToDelete = object;
-    NSManagedObjectContext *context = [self context];
-    [context deleteObject:objectToDelete];
-    
-    NSError *deleteError = nil;
-    
-    if (![objectToDelete.managedObjectContext save:&deleteError]) {
-        NSLog(@"Unable to save managed object context.");
-        NSLog(@"%@, %@", deleteError, deleteError.localizedDescription);
-        return false;
-    }
-    else {
-        return true;
-    }
-}
-*/
+
 #pragma mark - User Defaults
 
 -(NSUserDefaults*)standardUserDefaults{

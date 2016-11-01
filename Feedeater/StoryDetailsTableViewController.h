@@ -11,7 +11,7 @@
 
 @interface StoryDetailsTableViewController : UITableViewController
 
-@property (strong, nonatomic) NSObject *selectedStory;
+@property (strong, nonatomic) NSDictionary *selectedStory;
 
 @property (strong, nonatomic) NSManagedObject *currentFeed;
 

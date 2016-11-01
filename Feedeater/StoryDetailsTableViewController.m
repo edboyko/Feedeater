@@ -52,7 +52,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
-    likeButton.objectID = [self.selectedStory valueForKey:@"link"]; // Set up "Like" Button
+    likeButton.objectID = [self.selectedStory objectForKey:@"link"]; // Set up "Like" Button
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
@@ -76,19 +76,19 @@
     cell.textLabel.textAlignment = NSTextAlignmentCenter;
     cell.textLabel.textColor = [UIColor colorWithRed:0.16 green:0.16 blue:0.16 alpha:1.0];
     if(indexPath.row == 0){ // Story Title
-        cell.textLabel.text = [self.selectedStory valueForKey:@"title"];
+        cell.textLabel.text = [self.selectedStory objectForKey:@"title"];
         cell.textLabel.numberOfLines = 3;
         cell.textLabel.font = [UIFont systemFontOfSize:16.0f weight:UIFontWeightSemibold];
     }
     else if(indexPath.row == 1){ // Story Description
-        if([[self.selectedStory valueForKey:@"contentSnippet"]isEqualToString:@""]){
+        if([[self.selectedStory objectForKey:@"contentSnippet"]isEqualToString:@""]){
             cell.textLabel.text = @"No Description";
             UIFontDescriptor * fontD = [cell.textLabel.font.fontDescriptor fontDescriptorWithSymbolicTraits:UIFontDescriptorTraitItalic];
             cell.textLabel.textColor = [UIColor lightGrayColor];
             cell.textLabel.font = [UIFont fontWithDescriptor:fontD size:16.0f];
         }
         else {
-            cell.textLabel.text = [self.selectedStory valueForKey:@"contentSnippet"];
+            cell.textLabel.text = [self.selectedStory objectForKey:@"contentSnippet"];
             cell.textLabel.numberOfLines = 0;
             cell.textLabel.textAlignment = NSTextAlignmentJustified;
         }
@@ -107,7 +107,7 @@
             cell.textLabel.text = @"Save to Bookmarks";
                 
             for(NSManagedObject *bookmark in [self.dataManager getBookmarks]){
-                if([[bookmark valueForKey:@"name"]isEqualToString:[self.selectedStory valueForKey:@"title"]]){
+                if([[bookmark valueForKey:@"name"]isEqualToString:[self.selectedStory objectForKey:@"title"]]){
                     [self disableCell:cell newText:@"In Bookmarks"];
                 }
             }
@@ -130,26 +130,23 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     if(indexPath.row == 2){ // Open with Browser Button
-        NSURL *url = [NSURL URLWithString:[self.selectedStory valueForKey:@"link"]];
+        NSURL *url = [NSURL URLWithString:[self.selectedStory objectForKey:@"link"]];
         if (![[UIApplication sharedApplication] openURL:url]) {
             NSLog(@"%@%@",@"Failed to open url:",[url description]);
         }
     }
     else if(indexPath.row == 3){ // Add to Bookmarks Button
-        if([self.dataManager saveBookmark:[self.selectedStory valueForKey:@"title"]
-                                      url:[self.selectedStory valueForKey:@"link"]
-                                     feed:self.currentFeed])
-        {
-            
-            [self showMessage:@"Bookmark Added!" fromView:[tableView cellForRowAtIndexPath:indexPath]];
-            
-            NSArray *rowIndexArray = [[NSArray alloc]initWithObjects:indexPath, nil];
-            [self.tableView reloadRowsAtIndexPaths:rowIndexArray withRowAnimation:UITableViewRowAnimationFade];
-        }
+        [self.dataManager saveBookmark:[self.selectedStory objectForKey:@"title"]
+                                   url:[self.selectedStory objectForKey:@"link"]
+                                  feed:self.currentFeed];
+        [self showMessage:@"Bookmark Added!" fromView:[tableView cellForRowAtIndexPath:indexPath]];
+        
+        NSArray *rowIndexArray = [[NSArray alloc]initWithObjects:indexPath, nil];
+        [self.tableView reloadRowsAtIndexPaths:rowIndexArray withRowAnimation:UITableViewRowAnimationFade];
     }
     if(indexPath.row == 4){ // Share Button
         NSArray *postContent;
-        NSURL *storyURL = [NSURL URLWithString:[self.selectedStory valueForKey:@"link"]];
+        NSURL *storyURL = [NSURL URLWithString:[self.selectedStory objectForKey:@"link"]];
         postContent = @[storyURL];
         UIActivityViewController *avc = [[UIActivityViewController alloc]initWithActivityItems:postContent applicationActivities:nil];
         [self presentViewController:avc animated:true completion:nil];
@@ -255,8 +252,8 @@
     
     self.number = [self getNumberFromContact:contact];
     
-    NSString *storyTitle = [self.selectedStory valueForKey:@"title"];
-    NSString *storyLink = [self.selectedStory valueForKey:@"link"];
+    NSString *storyTitle = [self.selectedStory objectForKey:@"title"];
+    NSString *storyLink = [self.selectedStory objectForKey:@"link"];
     
     NSString *message = [NSString stringWithFormat:@"%@, %@", storyTitle, storyLink]; // Compose message
     

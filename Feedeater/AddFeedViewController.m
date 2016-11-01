@@ -125,9 +125,8 @@
         if(![nameField.text isEqualToString:@""] && ![urlField.text isEqualToString:@""]){
             if([self validateUrl:urlField.text]){ // If all fields were filled correctly, add new feed
                 
-                if([self.dataManager saveFeed:nameField.text url:urlField.text]){
-                    [self.navigationController popToRootViewControllerAnimated:true];
-                }
+                [self.dataManager saveFeed:nameField.text url:urlField.text];
+                [self.navigationController popToRootViewControllerAnimated:true];
             }
             else { // Inform user that they failed to provide correct URL
                 [self.navigationController presentViewController:[self errorAlertWithTitle:@"Wrong URL"
@@ -184,8 +183,15 @@
         }
         else {
             NSData *data = [NSData dataWithContentsOfURL:url];
-            
-            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
+            NSDictionary *jsonDict;
+            if(data){
+                jsonDict = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
+            }
+            else {
+                NSLog(@"No Data!");
+                [self.navigationController popToRootViewControllerAnimated:YES];
+                return;
+            }
             if([[jsonDict objectForKey:@"responseStatus"]integerValue] == 400){
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.hud hideAnimated:true];
