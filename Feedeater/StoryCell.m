@@ -27,9 +27,9 @@
                newStories:(NSInteger)amount
 {
     
-    self.titleLabel.text = [[array objectAtIndex:indexPath.row]objectForKey:@"title"];
+    self.titleLabel.text = array[indexPath.row][@"title"];
     
-    [self.titleLabel setFont:[self.titleLabel.font fontWithSize:fontSize]];
+    (self.titleLabel).font = [self.titleLabel.font fontWithSize:fontSize];
     
     self.openButton.tag = indexPath.row;
     

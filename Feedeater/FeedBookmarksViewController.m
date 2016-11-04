@@ -33,7 +33,6 @@
 }
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    [NSFetchedResultsController deleteCacheWithName:@"Master"];
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -41,7 +40,7 @@
 }
 
 -(void)updateTitle{ // Updates title to show amount of Bookmarks
-    self.title = [NSString stringWithFormat:@"Bookmarks (%lu)", [[[self.fetchedResultsController sections]objectAtIndex:0]numberOfObjects]];
+    self.title = [NSString stringWithFormat:@"Bookmarks (%lu)", (self.fetchedResultsController).sections[0].numberOfObjects];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -52,12 +51,12 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return [[self.fetchedResultsController sections] count];
+    return (self.fetchedResultsController).sections.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    id <NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController sections][section];
-    return [sectionInfo numberOfObjects];
+    id <NSFetchedResultsSectionInfo> sectionInfo = (self.fetchedResultsController).sections[section];
+    return sectionInfo.numberOfObjects;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -71,15 +70,15 @@
 
 -(void)configureCell:(UITableViewCell*)cell atIndexPath:(NSIndexPath*)indexPath{
     cell.textLabel.text = [[self.fetchedResultsController objectAtIndexPath:indexPath]valueForKey:@"name"];
-    float fontSize = [[self.dataManager standardUserDefaults]floatForKey:@"font_size"];
-    [cell.textLabel setFont:[cell.textLabel.font fontWithSize:fontSize]];
-    [cell.textLabel setNumberOfLines:2];
+    float fontSize = [(self.dataManager).standardUserDefaults floatForKey:@"font_size"];
+    (cell.textLabel).font = [cell.textLabel.font fontWithSize:fontSize];
+    (cell.textLabel).numberOfLines = 2;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{ // Open bookmark in browser
     NSURL *url = [NSURL URLWithString:[[self.fetchedResultsController objectAtIndexPath:indexPath]valueForKey:@"url"]];
     if (![[UIApplication sharedApplication] openURL:url]) {
-        NSLog(@"%@%@",@"Failed to open url:",[url description]);
+        NSLog(@"%@%@",@"Failed to open url:",url.description);
     }
     [self.tableView deselectRowAtIndexPath:indexPath animated:true];
 }
@@ -133,15 +132,15 @@
     NSFetchRequest *fetchRequest = [self.dataManager fetchRequestWithEntity:@"Bookmark"];
     
     // Set the batch size to a suitable number.
-    [fetchRequest setFetchBatchSize:20];
+    fetchRequest.fetchBatchSize = 20;
     
     // Edit the sort key as appropriate.
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:NO];
     
     NSPredicate *feedPredicate = [NSPredicate predicateWithFormat:@"feed.name like %@", [self.currentFeed valueForKey:@"name"]];
     
-    [fetchRequest setPredicate:feedPredicate];
-    [fetchRequest setSortDescriptors:@[sortDescriptor]];
+    fetchRequest.predicate = feedPredicate;
+    fetchRequest.sortDescriptors = @[sortDescriptor];
     
     // Edit the section name key path and cache name if appropriate.
     // nil for section name key path means "no sections".
@@ -149,7 +148,7 @@
                                                              initWithFetchRequest:fetchRequest
                                                              managedObjectContext:self.dataManager.context
                                                                sectionNameKeyPath:nil
-                                                                        cacheName:@"Master"];
+                                                                        cacheName:nil];
     aFetchedResultsController.delegate = self;
     
     NSError *error = nil;

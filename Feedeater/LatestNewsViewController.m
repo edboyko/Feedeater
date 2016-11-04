@@ -90,7 +90,7 @@
     
     self.hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:true];
     
-    [self.hud.backgroundView setStyle:MBProgressHUDBackgroundStyleBlur];
+    (self.hud.backgroundView).style = MBProgressHUDBackgroundStyleBlur;
     self.hud.label.text = @"Loading";
     self.hud.removeFromSuperViewOnHide = true;
     self.hud.center = self.view.center;
@@ -127,9 +127,9 @@
         while(temp_addr != NULL) {
             if(temp_addr->ifa_addr->sa_family == AF_INET) {
                 // Check if interface is en0 which is the wifi connection on the iPhone
-                if([[NSString stringWithUTF8String:temp_addr->ifa_name] isEqualToString:@"en0"]) {
+                if([@(temp_addr->ifa_name) isEqualToString:@"en0"]) {
                     // Get NSString from C String
-                    address = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_addr)->sin_addr)];
+                    address = @(inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_addr)->sin_addr));
                     
                 }
                 
@@ -149,10 +149,10 @@
     NSString *title;
     NSString *key = [NSString stringWithFormat:@"%@_lastTitle", keyName]; // Create key for defaults
     
-    if([[self.dataManager standardUserDefaults] objectForKey:key]){ // If there is object under such key
+    if([(self.dataManager).standardUserDefaults objectForKey:key]){ // If there is object under such key
         for(id story in self.newsArray){ // Go through news titles
-            title = [story objectForKey:@"title"];
-            if(![title isEqualToString:[[self.dataManager standardUserDefaults] objectForKey:key]]){
+            title = story[@"title"];
+            if(![title isEqualToString:[(self.dataManager).standardUserDefaults objectForKey:key]]){
                 // Check if there are new stories on top of the old ones
                 newStoriesAmount++; // Increment amount value if different title
             }
@@ -166,7 +166,7 @@
         }
     }
     
-    [[self.dataManager standardUserDefaults] setObject:[[self.newsArray firstObject]objectForKey:@"title"] forKey:key]; // Save first title to defaults to check on new stories next time
+    [(self.dataManager).standardUserDefaults setObject:(self.newsArray).firstObject[@"title"] forKey:key]; // Save first title to defaults to check on new stories next time
 }
 
 -(void)pullToRefresh{
@@ -186,16 +186,16 @@
             NSData *data = [NSData dataWithContentsOfURL:url];
             
             NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
-            if([[jsonDict objectForKey:@"responseStatus"]integerValue] == 400){
+            if([jsonDict[@"responseStatus"]integerValue] == 400){
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.hud hideAnimated:true];
                 });
             }
             else {
                 
-                NSMutableArray *tempArr = [[[jsonDict objectForKey:@"responseData"]objectForKey:@"feed"] objectForKey:@"entries"];
+                NSMutableArray *tempArr = jsonDict[@"responseData"][@"feed"][@"entries"];
                 
-                keyName = [[[jsonDict objectForKey:@"responseData"]objectForKey:@"feed"]objectForKey:@"title"];
+                keyName = jsonDict[@"responseData"][@"feed"][@"title"];
                 
                 self.newsArray = tempArr;
                 
@@ -225,7 +225,7 @@
     if(cell == nil){
         cell = [[StoryCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
-    CGFloat fontSize = [[self.dataManager standardUserDefaults]floatForKey:@"font_size"];
+    CGFloat fontSize = [(self.dataManager).standardUserDefaults floatForKey:@"font_size"];
     
     [cell configureFromArray:self.visibleNews
                  atIndexPath:indexPath
@@ -238,15 +238,15 @@
 }
 
 -(void)openInBrowser:(UIButton*)button{
-    NSString *urlString = [[self.visibleNews objectAtIndex:button.tag] valueForKey:@"link"];
+    NSString *urlString = [(self.visibleNews)[button.tag] valueForKey:@"link"];
     NSURL *url = [NSURL URLWithString:urlString];
     if (![[UIApplication sharedApplication] openURL:url]) {
-        NSLog(@"%@%@",@"Failed to open url:",[url description]);
+        NSLog(@"%@%@",@"Failed to open url:",url.description);
     }
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    storyVC.selectedStory = [self.visibleNews objectAtIndex:indexPath.row];
+    storyVC.selectedStory = (self.visibleNews)[indexPath.row];
     storyVC.currentFeed = self.selectedFeed;
 
     [self.searchController setActive:false];
@@ -293,7 +293,7 @@
     self.searchController.searchBar.delegate = self;
     
     [self.searchController.searchBar sizeToFit];
-    [self.searchController.searchBar setPlaceholder:@"Search for News"];
+    (self.searchController.searchBar).placeholder = @"Search for News";
     
     self.tableView.tableHeaderView = self.searchController.searchBar;
     
@@ -309,7 +309,7 @@
         
         for(id story in self.newsArray){
             
-            NSString *storyTitle = [story objectForKey:@"title"];
+            NSString *storyTitle = story[@"title"];
             BOOL matchesFound = [storyTitle localizedCaseInsensitiveContainsString:searchString];
             
             if(matchesFound){
@@ -328,11 +328,11 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
-    if([[segue identifier] isEqualToString:@"toStory"]){
-        storyVC = [segue destinationViewController];
+    if([segue.identifier isEqualToString:@"toStory"]){
+        storyVC = segue.destinationViewController;
     }
-    if([[segue identifier] isEqualToString:@"toFeedsBookmarks"]){
-        feedBookmarksVC = [segue destinationViewController]; // Find Feed Bookmarks VC
+    if([segue.identifier isEqualToString:@"toFeedsBookmarks"]){
+        feedBookmarksVC = segue.destinationViewController; // Find Feed Bookmarks VC
         feedBookmarksVC.currentFeed = self.selectedFeed; // Transfer selected feed to Feed Bookmarks VC
     }
 }

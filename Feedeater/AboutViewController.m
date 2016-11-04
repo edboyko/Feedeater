@@ -103,7 +103,7 @@
             cell.textLabel.text = @"Author: Edvin Boiko © 2016";
         }
     }
-    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 

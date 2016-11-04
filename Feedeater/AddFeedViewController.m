@@ -47,12 +47,12 @@
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     NSString *identifier = @"Result Cell";
     UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identifier];
-    cell.textLabel.text = [[self.resultsArray objectAtIndex:indexPath.row]objectForKey:@"url"];
+    cell.textLabel.text = (self.resultsArray)[indexPath.row][@"url"];
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSString *selectedFeedURL = [[[tableView cellForRowAtIndexPath:indexPath]textLabel]text];
+    NSString *selectedFeedURL = [tableView cellForRowAtIndexPath:indexPath].textLabel.text;
     [self presentViewController:[self addAlertWithName:@"" andURL:selectedFeedURL] animated:YES completion:nil];
 }
 
@@ -113,8 +113,8 @@
     [newFeedAlert addTextFieldWithConfigurationHandler:nil];
     [newFeedAlert addTextFieldWithConfigurationHandler:nil];
     // Save textfields to variables
-    UITextField *nameField = [[newFeedAlert textFields]firstObject];
-    UITextField *urlField = [[newFeedAlert textFields]lastObject];
+    UITextField *nameField = newFeedAlert.textFields.firstObject;
+    UITextField *urlField = newFeedAlert.textFields.lastObject;
     
     nameField.placeholder = @"Name";
     urlField.placeholder = @"URL";
@@ -131,15 +131,15 @@
             else { // Inform user that they failed to provide correct URL
                 [self.navigationController presentViewController:[self errorAlertWithTitle:@"Wrong URL"
                                                            andMessage:@"Please provide correct url address."
-                                                                 name:[[[newFeedAlert textFields]firstObject]text]
-                                                                  url:[[[newFeedAlert textFields]lastObject]text]] animated:YES completion:nil];
+                                                                 name:newFeedAlert.textFields.firstObject.text
+                                                                  url:newFeedAlert.textFields.lastObject.text] animated:YES completion:nil];
             }
         }
         else { // Inform user that they failed to fill all fields
             [self.navigationController presentViewController:[self errorAlertWithTitle:@"Please Fill All Fields"
                                                        andMessage:nil
-                                                             name:[[[newFeedAlert textFields]firstObject]text]
-                                                              url:[[[newFeedAlert textFields]lastObject]text]] animated:YES completion:nil];
+                                                             name:newFeedAlert.textFields.firstObject.text
+                                                              url:newFeedAlert.textFields.lastObject.text] animated:YES completion:nil];
         }
     }];
     UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
@@ -192,14 +192,14 @@
                 [self.navigationController popToRootViewControllerAnimated:YES];
                 return;
             }
-            if([[jsonDict objectForKey:@"responseStatus"]integerValue] == 400){
+            if([jsonDict[@"responseStatus"]integerValue] == 400){
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.hud hideAnimated:true];
                 });
             }
             else {
                 
-                self.resultsArray = [[jsonDict objectForKey:@"responseData"]objectForKey:@"entries"];
+                self.resultsArray = jsonDict[@"responseData"][@"entries"];
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.hud hideAnimated:true];

@@ -17,7 +17,7 @@
 @property (strong, nonatomic) NSManagedObjectContext *context;
 
 +(DataManager*)sharedInstance;
--(NSArray*)getBookmarks;
+@property (NS_NONATOMIC_IOSONLY, getter=getBookmarks, readonly, copy) NSArray *bookmarks;
 -(NSFetchRequest*)fetchRequestWithEntity:(NSString*)entityName;
 
 -(void)saveFeed:(NSString*)name url:(NSString*)url;

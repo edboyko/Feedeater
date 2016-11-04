@@ -47,12 +47,12 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return [[self.fetchedResultsController sections] count];
+    return (self.fetchedResultsController).sections.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    id <NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController sections][section];
-    return [sectionInfo numberOfObjects];
+    id <NSFetchedResultsSectionInfo> sectionInfo = (self.fetchedResultsController).sections[section];
+    return sectionInfo.numberOfObjects;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -77,7 +77,7 @@
     cell.textLabel.text = [feed valueForKey:@"name"];
     NSDate *date = [feed valueForKey:@"created"];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
-    [dateFormatter setDateFormat:@"HH:mm dd/MM/YYYY"];
+    dateFormatter.dateFormat = @"HH:mm dd/MM/YYYY";
     
     cell.detailTextLabel.text = [NSString stringWithFormat:@"Added: %@", [dateFormatter stringFromDate:date]];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -147,11 +147,11 @@
     
     if([segue.identifier isEqual: @"toNews"]){
         // Find News View Controller
-        newsVC = [segue destinationViewController];
+        newsVC = segue.destinationViewController;
     }
     else if([segue.identifier isEqual: @"toEditFeed"]){
         // Find Edit Feed View Controller
-        editFeedVC = [segue destinationViewController];
+        editFeedVC = segue.destinationViewController;
     }
 }
 #pragma mark - Add Feed Alert
@@ -323,12 +323,12 @@
     NSFetchRequest *fetchRequest = [self.dataManager fetchRequestWithEntity:@"Feed"];
     
     // Set the batch size to a suitable number.
-    [fetchRequest setFetchBatchSize:20];
+    fetchRequest.fetchBatchSize = 20;
     
     // Edit the sort key as appropriate.
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"created" ascending:YES];
     
-    [fetchRequest setSortDescriptors:@[sortDescriptor]];
+    fetchRequest.sortDescriptors = @[sortDescriptor];
     
     // Edit the section name key path and cache name if appropriate.
     // nil for section name key path means "no sections".

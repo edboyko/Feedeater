@@ -40,17 +40,17 @@
 
 #pragma mark - Table view data source
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return [[self.fetchedResultsController sections] count];
+    return (self.fetchedResultsController).sections.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    id <NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController sections][section];
-    return [sectionInfo numberOfObjects];
+    id <NSFetchedResultsSectionInfo> sectionInfo = (self.fetchedResultsController).sections[section];
+    return sectionInfo.numberOfObjects;
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    id <NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController sections][section];
-    return [NSString stringWithFormat: @"%@ (%lu)", [sectionInfo name], (unsigned long)[sectionInfo numberOfObjects]];
+    id <NSFetchedResultsSectionInfo> sectionInfo = (self.fetchedResultsController).sections[section];
+    return [NSString stringWithFormat: @"%@ (%lu)", sectionInfo.name, (unsigned long)sectionInfo.numberOfObjects];
 }
 
 
@@ -67,8 +67,8 @@
     
     cell.textLabel.text = [[self.fetchedResultsController objectAtIndexPath:indexPath]valueForKey:@"name"];
     
-    float fontSize = [[self.dataManager standardUserDefaults]floatForKey:@"font_size"];
-    [cell.textLabel setFont:[cell.textLabel.font fontWithSize:fontSize]];
+    float fontSize = [self.dataManager.standardUserDefaults floatForKey:@"font_size"];
+    (cell.textLabel).font = [cell.textLabel.font fontWithSize:fontSize];
     cell.textLabel.numberOfLines = 2;
 }
 
@@ -77,7 +77,7 @@
     NSString *stringURL = [[self.fetchedResultsController objectAtIndexPath:indexPath]valueForKey:@"url"];
     NSURL *url = [NSURL URLWithString:stringURL];
     if (![[UIApplication sharedApplication] openURL:url]) {
-        NSLog(@"%@%@",@"Failed to open url:",[url description]);
+        NSLog(@"%@%@",@"Failed to open url:",url.description);
     }
     [self.tableView deselectRowAtIndexPath:indexPath animated:true];
 }
@@ -132,12 +132,12 @@
     NSFetchRequest *fetchRequest = [self.dataManager fetchRequestWithEntity:@"Bookmark"];
     
     // Set the batch size to a suitable number.
-    [fetchRequest setFetchBatchSize:20];
+    fetchRequest.fetchBatchSize = 20;
     
     // Edit the sort key as appropriate.
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"feed.name" ascending:NO];
     
-    [fetchRequest setSortDescriptors:@[sortDescriptor]];
+    fetchRequest.sortDescriptors = @[sortDescriptor];
     
     // Edit the section name key path and cache name if appropriate.
     // nil for section name key path means "no sections".

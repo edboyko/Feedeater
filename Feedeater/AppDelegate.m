@@ -22,9 +22,8 @@
     [[FBSDKApplicationDelegate sharedInstance] application:application
                              didFinishLaunchingWithOptions:launchOptions];
     */
-    self.dataManager = [DataManager sharedInstance];
     if([[NSUserDefaults standardUserDefaults]valueForKey:@"font_size"] == 0){ // Set font size to default font size
-        [[NSUserDefaults standardUserDefaults]setValue:[NSNumber numberWithFloat:15] forKey:@"font_size"];
+        [[NSUserDefaults standardUserDefaults]setValue:@15.0f forKey:@"font_size"];
     }
     
     self.window.tintColor = [UIColor colorWithRed:0.98 green:0.37 blue:0.38 alpha:1.0];
@@ -69,7 +68,7 @@
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     // Saves changes in the application's managed object context before the application terminates.
-    [self.dataManager saveContext];
+    [[DataManager sharedInstance] saveContext];
 }
 
 
