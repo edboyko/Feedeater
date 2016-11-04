@@ -225,28 +225,14 @@
     if(cell == nil){
         cell = [[StoryCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
-    cell.titleLabel.text = [[self.visibleNews objectAtIndex:indexPath.row]objectForKey:@"title"];
+    CGFloat fontSize = [[self.dataManager standardUserDefaults]floatForKey:@"font_size"];
     
-    float fontSize = [[self.dataManager standardUserDefaults]floatForKey:@"font_size"];
-    [cell.titleLabel setFont:[cell.titleLabel.font fontWithSize:fontSize]];
+    [cell configureFromArray:self.visibleNews
+                 atIndexPath:indexPath
+                withFontSize:fontSize
+                  newStories:newStoriesAmount];
     
-    cell.openButton.tag = indexPath.row;
     [cell.openButton addTarget:self action:@selector(openInBrowser:) forControlEvents:UIControlEventTouchUpInside];
-    
-    cell.textLabel.numberOfLines = 2;
-    if(!cell.shown){
-        if(indexPath.row < newStoriesAmount){
-            cell.titleLabel.text = [NSString stringWithFormat:@"NEW! %@", cell.titleLabel.text];
-            UIColor *golden = [UIColor colorWithRed:1.00 green:0.84 blue:0.00 alpha:1.0];
-            cell.layer.backgroundColor = golden.CGColor;
-            
-            [UIView animateWithDuration:0.9 animations:^{
-                cell.layer.backgroundColor = [UIColor clearColor].CGColor;
-            } completion:nil];
-        }
-        cell.shown = true;
-    }
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     return cell;
 }

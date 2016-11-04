@@ -18,8 +18,8 @@
     FBSDKLikeControl *likeButton;
 }
 
-@property(strong, nonatomic) CNContactPickerViewController *addressBook;
-@property(strong, nonatomic) NSString *number;
+@property (strong, nonatomic) CNContactPickerViewController *addressBook;
+@property (strong, nonatomic) NSString *number;
 @property (strong, nonatomic) DataManager *dataManager;
 @property (strong, nonatomic) AXPopoverView *popover;
 
@@ -31,11 +31,7 @@
     [super viewDidLoad];
     self.dataManager = [DataManager sharedInstance];
     
-    self.tableView.scrollEnabled = false;
-    
     likeButton = [[FBSDKLikeControl alloc] init];
-    
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -62,8 +58,18 @@
 
 #pragma mark - Table view data source
 
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 3;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 7;
+    if(section == 0){
+        return 2;
+    }
+    else if(section == 1){
+        return 4;
+    }
+    return 1;
 }
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -74,68 +80,74 @@
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.textLabel.textAlignment = NSTextAlignmentCenter;
-    cell.textLabel.textColor = [UIColor colorWithRed:0.16 green:0.16 blue:0.16 alpha:1.0];
-    if(indexPath.row == 0){ // Story Title
-        cell.textLabel.text = [self.selectedStory objectForKey:@"title"];
-        cell.textLabel.numberOfLines = 3;
-        cell.textLabel.font = [UIFont systemFontOfSize:16.0f weight:UIFontWeightSemibold];
-    }
-    else if(indexPath.row == 1){ // Story Description
-        if([[self.selectedStory objectForKey:@"contentSnippet"]isEqualToString:@""]){
-            cell.textLabel.text = @"No Description";
-            UIFontDescriptor * fontD = [cell.textLabel.font.fontDescriptor fontDescriptorWithSymbolicTraits:UIFontDescriptorTraitItalic];
-            cell.textLabel.textColor = [UIColor lightGrayColor];
-            cell.textLabel.font = [UIFont fontWithDescriptor:fontD size:16.0f];
+    if(indexPath.section == 0){
+        
+        cell.textLabel.textColor = [UIColor colorWithRed:0.16 green:0.16 blue:0.16 alpha:1.0];
+        
+        if(indexPath.row == 0){ // Story Title
+            cell.textLabel.text = [self.selectedStory objectForKey:@"title"];
+            cell.textLabel.numberOfLines = 3;
+            cell.textLabel.font = [UIFont systemFontOfSize:16.0f weight:UIFontWeightSemibold];
         }
-        else {
-            cell.textLabel.text = [self.selectedStory objectForKey:@"contentSnippet"];
-            cell.textLabel.numberOfLines = 0;
-            cell.textLabel.textAlignment = NSTextAlignmentJustified;
+        else if(indexPath.row == 1){ // Story Description
+            if([[self.selectedStory objectForKey:@"contentSnippet"]isEqualToString:@""]){
+                cell.textLabel.text = @"No Description";
+                UIFontDescriptor * fontD = [cell.textLabel.font.fontDescriptor fontDescriptorWithSymbolicTraits:UIFontDescriptorTraitItalic];
+                cell.textLabel.textColor = [UIColor lightGrayColor];
+                cell.textLabel.font = [UIFont fontWithDescriptor:fontD size:16.0f];
+            }
+            else {
+                cell.textLabel.text = [self.selectedStory objectForKey:@"contentSnippet"];
+                cell.textLabel.numberOfLines = 0;
+                cell.textLabel.textAlignment = NSTextAlignmentJustified;
+            }
         }
     }
-    else if(indexPath.row > 1){
+    else if(indexPath.section == 1){
+        
         [cell.textLabel setFont:[UIFont systemFontOfSize:17.0f weight:UIFontWeightBold]];
         cell.textLabel.textColor = [UIColor colorWithRed:0.98 green:0.37 blue:0.38 alpha:1.0];
         cell.selectionStyle = UITableViewCellSelectionStyleDefault;
         
-        if(indexPath.row == 2){
+        if(indexPath.row == 0){
             cell.textLabel.textColor = [UIColor colorWithRed:0.33 green:0.76 blue:0.46 alpha:1.0];
             [cell.textLabel setFont:[UIFont systemFontOfSize:19.0f weight:UIFontWeightBold]];
             cell.textLabel.text = @"Open with Browser";
         }
-        else if(indexPath.row == 3){
+        else if(indexPath.row == 1){
             cell.textLabel.text = @"Save to Bookmarks";
-                
+            
             for(NSManagedObject *bookmark in [self.dataManager getBookmarks]){
                 if([[bookmark valueForKey:@"name"]isEqualToString:[self.selectedStory objectForKey:@"title"]]){
                     [self disableCell:cell newText:@"In Bookmarks"];
                 }
             }
         }
-        else if(indexPath.row == 4){
+        else if(indexPath.row == 2){
             cell.textLabel.text = @"Share";
         }
-        else if(indexPath.row == 5){
+        else if(indexPath.row == 3){
             cell.textLabel.text = @"Send via SMS";
         }
-        else if(indexPath.row == 6){
-            likeButton.center = CGPointMake(self.view.center.x, cell.contentView.center.y);
-            [cell.contentView addSubview:likeButton];
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        }
+    }
+    else if(indexPath.section == 2){
+        
+        likeButton.center = CGPointMake(self.view.center.x, cell.contentView.center.y);
+        [cell.contentView addSubview:likeButton];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    if(indexPath.row == 2){ // Open with Browser Button
+    if(indexPath.row == 0){ // Open with Browser
         NSURL *url = [NSURL URLWithString:[self.selectedStory objectForKey:@"link"]];
         if (![[UIApplication sharedApplication] openURL:url]) {
             NSLog(@"%@%@",@"Failed to open url:",[url description]);
         }
     }
-    else if(indexPath.row == 3){ // Add to Bookmarks Button
+    else if(indexPath.row == 1){ // Add to Bookmarks
         [self.dataManager saveBookmark:[self.selectedStory objectForKey:@"title"]
                                    url:[self.selectedStory objectForKey:@"link"]
                                   feed:self.currentFeed];
@@ -144,14 +156,14 @@
         NSArray *rowIndexArray = [[NSArray alloc]initWithObjects:indexPath, nil];
         [self.tableView reloadRowsAtIndexPaths:rowIndexArray withRowAnimation:UITableViewRowAnimationFade];
     }
-    if(indexPath.row == 4){ // Share Button
+    if(indexPath.row == 2){ // Share on Social Media
         NSArray *postContent;
         NSURL *storyURL = [NSURL URLWithString:[self.selectedStory objectForKey:@"link"]];
         postContent = @[storyURL];
         UIActivityViewController *avc = [[UIActivityViewController alloc]initWithActivityItems:postContent applicationActivities:nil];
         [self presentViewController:avc animated:true completion:nil];
     }
-    if(indexPath.row == 5){ // Send via SMS Button
+    if(indexPath.row == 3){ // Send via SMS
         [self openAddressBook:self];
     }
     [self.tableView deselectRowAtIndexPath:indexPath animated:true];

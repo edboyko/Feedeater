@@ -13,4 +13,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *openButton;
 @property (assign, nonatomic) BOOL shown;
 
+-(void)configureFromArray:(NSArray*)array
+              atIndexPath:(NSIndexPath*)indexPath
+             withFontSize:(CGFloat)fontSize
+               newStories:(NSInteger)amount;
 @end

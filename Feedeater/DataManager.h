@@ -7,23 +7,23 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
 #import "AppDelegate.h"
 
 @interface DataManager : NSObject
 
-//@property (strong,nonatomic) NSArray *feedsArray;
 @property (strong,nonatomic) NSUserDefaults *standardUserDefaults;
 
 @property (strong, nonatomic) NSManagedObjectContext *context;
 
 +(DataManager*)sharedInstance;
-//-(void)reloadArray;
 -(NSArray*)getBookmarks;
 -(NSFetchRequest*)fetchRequestWithEntity:(NSString*)entityName;
 
 -(void)saveFeed:(NSString*)name url:(NSString*)url;
-//-(BOOL)deleteObject:(id)object;
 -(void)deleteObject:(NSManagedObject*)object;
 -(void)saveBookmark:(NSString*)name url:(NSString*)url feed:(NSManagedObject*)feed;
+
+- (void)saveContext;
 
 @end

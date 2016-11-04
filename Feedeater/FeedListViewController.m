@@ -75,6 +75,11 @@
     NSManagedObject *feed = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
     cell.textLabel.text = [feed valueForKey:@"name"];
+    NSDate *date = [feed valueForKey:@"created"];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+    [dateFormatter setDateFormat:@"HH:mm dd/MM/YYYY"];
+    
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"Added: %@", [dateFormatter stringFromDate:date]];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
 }
@@ -321,7 +326,7 @@
     [fetchRequest setFetchBatchSize:20];
     
     // Edit the sort key as appropriate.
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:NO];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"created" ascending:YES];
     
     [fetchRequest setSortDescriptors:@[sortDescriptor]];
     
