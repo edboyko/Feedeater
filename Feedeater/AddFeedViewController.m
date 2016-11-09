@@ -203,7 +203,7 @@
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.hud hideAnimated:true];
-                    [self.tableView reloadData];
+                    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationTop];
                 });
             }
         }

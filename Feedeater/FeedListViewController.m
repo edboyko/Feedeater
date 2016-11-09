@@ -34,9 +34,9 @@
     self.dataManager = [DataManager sharedInstance];
 }
 
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:true];
-    
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:true];
+    [self.dataManager saveContext];
 }
 
 - (void)didReceiveMemoryWarning {

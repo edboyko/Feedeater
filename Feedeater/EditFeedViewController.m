@@ -65,15 +65,9 @@
     if([self fieldsNotEmpty]) {
         if([self validateUrl:self.urlField.text]){
             // If everything correct - edit Feed
-            [self.selectedFeed setValue:self.nameField.text forKey:@"name"];
-            [self.selectedFeed setValue:self.urlField.text forKey:@"url"];
-            
-            NSError *saveError = nil;
-            
-            if (![self.selectedFeed.managedObjectContext save:&saveError]) {
-                NSLog(@"Unable to save managed object context.");
-                NSLog(@"%@, %@", saveError, saveError.localizedDescription);
-            }
+            [self.dataManager editFeed:self.selectedFeed
+                                  name:self.nameField.text
+                                andURL:self.urlField.text];
             
             [self.navigationController popToRootViewControllerAnimated:true];
         }
@@ -96,13 +90,7 @@
     UIAlertAction *deleteAction = [UIAlertAction actionWithTitle:@"Delete" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
         [self.dataManager deleteObject:self.selectedFeed];
         [self.navigationController popToRootViewControllerAnimated:true];
-        /*
-        if([self.dataManager deleteObject:self.selectedFeed]){
-         
-            [self.navigationController popToRootViewControllerAnimated:true];
-            
-        }
-        */
+        
     }];
     UIAlertAction *backAction = [UIAlertAction actionWithTitle:@"Back" style:UIAlertActionStyleDefault handler:nil];
     [deleteFeedAlert addAction:backAction];

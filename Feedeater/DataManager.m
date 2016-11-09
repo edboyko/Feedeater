@@ -84,12 +84,7 @@
     [newFeed setValue:url forKey:@"url"];
     [newFeed setValue:[NSDate date] forKey:@"created"];
     
-    NSError *error = nil;
-    
-    if (![newFeed.managedObjectContext save:&error]) {
-        NSLog(@"Unable to save managed object context.");
-        NSLog(@"%@, %@", error, error.localizedDescription);
-    }
+    [self saveContext];
 }
 
 -(void)saveBookmark:(NSString*)name url:(NSString*)url feed:(NSManagedObject*)feed{
@@ -102,23 +97,21 @@
     [newBookmark setValue:url forKey:@"url"];
     [newBookmark setValue:feed forKey:@"feed"];
     
-    NSError *error = nil;
-    
-    if (![newBookmark.managedObjectContext save:&error]) {
-        NSLog(@"Unable to save managed object context.");
-        NSLog(@"%@, %@", error, error.localizedDescription);
-    }
+    [self saveContext];
 }
 
 #pragma mark - Delete Data
 
 -(void)deleteObject:(NSManagedObject*)object{
     [self.context deleteObject:object];
-    NSError *deleteError = nil;
-    if(![object.managedObjectContext save:&deleteError]){
-        NSLog(@"Unable to save managed object context.");
-        NSLog(@"%@, %@", deleteError, deleteError.localizedDescription);
-    }
+}
+
+#pragma mark - Edit Data
+
+-(void)editFeed:(NSManagedObject*)feed name:(NSString*)name andURL:(NSString*)urlString{
+    [feed setValue:name forKey:@"name"];
+    [feed setValue:urlString forKey:@"url"];
+    [self saveContext];
 }
 
 #pragma mark - User Defaults
@@ -162,7 +155,7 @@
 #pragma mark - Core Data Saving support
 
 - (void)saveContext {
-    NSManagedObjectContext *context = self.persistentContainer.viewContext;
+    NSManagedObjectContext *context = self.context;
     NSError *error = nil;
     if (context.hasChanges && ![context save:&error]) {
         // Replace this implementation with code to handle the error appropriately.

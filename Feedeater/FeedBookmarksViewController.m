@@ -32,7 +32,8 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 -(void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
+    [super viewWillDisappear:true];
+    [self.dataManager saveContext];
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
